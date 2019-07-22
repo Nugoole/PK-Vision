@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +21,12 @@ namespace Visual_Inspection
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            string filepath = "d:\\opencv\\pcb2.jpg";
-            ImProcess.printImage("img", ImProcess.readImage(filepath,Emgu.CV.CvEnum.ImreadModes.AnyColor));
-            MessageBox.Show(ImProcess.getBarcodeCode(filepath));
-
+            string filepath = "..\\..\\ImageSources\\pcb_barcode.jpg";
+            ImProcess process = new ImProcess(filepath);
+            //MessageBox.Show(Directory.GetCurrentDirectory());
+            outputImage.Image = process.GetBitmap();
+            outputImage.SizeMode = PictureBoxSizeMode.StretchImage;
+            barcode.Text = process.getBarcodeCode();
         }
     }
 }

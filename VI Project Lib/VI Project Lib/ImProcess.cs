@@ -12,28 +12,46 @@ using ZXing;
 namespace VI_Project_Lib
 {
     public class ImProcess
-    { 
-        public static Mat readImage(string filepath, ImreadModes mode)
+    {
+        public ImProcess(string filepath)
         {
-            return CvInvoke.Imread(filepath, mode);
-        }
-
-        public static void printImage(string windowName, Mat image)
-        {
-            CvInvoke.Imshow(windowName, image);
+            ReadImage(filepath);
         }
         
-        public static string getBarcodeCode(string filepath)
+        private Mat imgData { get; set; }
+
+        public Bitmap GetBitmap()
         {
-            Bitmap bitmap = new Bitmap(filepath);
+            return imgData.ToImage<Bgr, Byte>().ToBitmap();
+        }
+        public void ReadImage(string filepath)
+        {
+            imgData = CvInvoke.Imread(filepath,ImreadModes.Grayscale);
+        }
+
+        public void printImage(string windowName)
+        {
+            //CvInvoke.Resize(image, image,new Size(image.Size.Width / 3, image.Size.Height / 3));
+                
+            CvInvoke.Imshow(windowName, imgData);
+        }   
+        
+        public string getBarcodeCode()
+        {
+            Bitmap bitmap = GetBitmap();
             IBarcodeReader reader = new BarcodeReader();
 
-            Result result = reader.Decode(bitmap);
+            Result[] results = reader.DecodeMultiple(bitmap);
+            StringBuilder builder = new StringBuilder();
+            foreach (var result in results)
+            {
+                builder.Append(result.Text);
+            }
 
-            if (result != null)
-                return result.Text;
+            if (builder != null)
+                return builder.ToString();
             else
-                return "No Barcodes";
+                return null;
         }
     }
 }
