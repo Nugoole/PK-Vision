@@ -28,8 +28,8 @@ namespace Visual_Inspection
             barcode.Text = process.GetBarcodeCode();
             process.ChangeContrast(0.2);
             process.CircleDetect();
-            outputImage.Image = process.GetBitmap();
-            outputImage.SizeMode = PictureBoxSizeMode.StretchImage;
+            panAndZoomPictureBox1.Image = process.GetBitmap();
+            panAndZoomPictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
     }
 }

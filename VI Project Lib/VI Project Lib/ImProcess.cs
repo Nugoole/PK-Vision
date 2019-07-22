@@ -2,6 +2,7 @@
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
+using Emgu.CV.UI;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace VI_Project_Lib
         }
         public void ReadImage(string filepath)
         {
-            imgData = CvInvoke.Imread(filepath, ImreadModes.Grayscale);
+            imgData = CvInvoke.Imread(filepath, ImreadModes.Color);
         }
 
         public void printImage(string windowName)
@@ -38,8 +39,8 @@ namespace VI_Project_Lib
 
         public void ChangeContrast(double value)
         {
-            imgData += 30;
-            imgData *= value;
+            //imgData += 30;
+            //imgData *= value;
         }
         public string GetBarcodeCode()
         {
@@ -63,8 +64,16 @@ namespace VI_Project_Lib
 
         public void CircleDetect()
         {
-            VectorOfFloat circles = new VectorOfFloat(3);
-            CvInvoke.HoughCircles(imgData, circles, HoughType.Gradient, 1,imgData.Rows / 8, 200, 50, 0 ,0);
+            CvInvoke.CvtColor(imgData, imgData, ColorConversion.Bgr2Gray);
+            CvInvoke.GaussianBlur(imgData, imgData, new Size(9, 9), 3, 3);
+            CircleF[] circles = CvInvoke.HoughCircles(imgData, HoughType.Gradient, 1, imgData.Rows / 50,50,40,0,30);
+
+            foreach(var circle in circles)
+            {
+                CvInvoke.Circle(imgData, new Point((int)circle.Center.X, (int)circle.Center.Y), 5, new MCvScalar(255));
+                //CvInvoke.Circle(imgData, new Point((int)circle.Center.X, (int)circle.Center.Y), (int)circle.Radius, new MCvScalar(255));
+                CvInvoke.Rectangle(imgData, new Rectangle((int)circle.Center.X - (int)circle.Radius, (int)circle.Center.Y - (int)circle.Radius, 2 * (int)circle.Radius, 2 * (int)circle.Radius),new MCvScalar(255));
+            }
         }
     }
 }
