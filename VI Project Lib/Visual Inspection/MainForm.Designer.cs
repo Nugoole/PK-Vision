@@ -1,6 +1,6 @@
 ﻿namespace Visual_Inspection
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -32,6 +32,8 @@
             this.outputImage = new System.Windows.Forms.PictureBox();
             this.barcodelabel = new System.Windows.Forms.Label();
             this.barcode = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.solderingfails = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.outputImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +59,7 @@
             // 
             this.barcodelabel.AutoSize = true;
             this.barcodelabel.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.barcodelabel.Location = new System.Drawing.Point(503, 123);
+            this.barcodelabel.Location = new System.Drawing.Point(522, 382);
             this.barcodelabel.Name = "barcodelabel";
             this.barcodelabel.Size = new System.Drawing.Size(95, 19);
             this.barcodelabel.TabIndex = 2;
@@ -67,21 +69,42 @@
             // 
             this.barcode.AutoSize = true;
             this.barcode.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.barcode.Location = new System.Drawing.Point(593, 123);
+            this.barcode.Location = new System.Drawing.Point(612, 382);
             this.barcode.Name = "barcode";
             this.barcode.Size = new System.Drawing.Size(0, 19);
             this.barcode.TabIndex = 3;
             // 
-            // Form1
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Location = new System.Drawing.Point(522, 338);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(142, 19);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Soldering Fails : ";
+            // 
+            // solderingfails
+            // 
+            this.solderingfails.AutoSize = true;
+            this.solderingfails.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.solderingfails.Location = new System.Drawing.Point(658, 338);
+            this.solderingfails.Name = "solderingfails";
+            this.solderingfails.Size = new System.Drawing.Size(0, 19);
+            this.solderingfails.TabIndex = 5;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.solderingfails);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.barcode);
             this.Controls.Add(this.barcodelabel);
             this.Controls.Add(this.outputImage);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.outputImage)).EndInit();
             this.ResumeLayout(false);
@@ -95,6 +118,8 @@
         private System.Windows.Forms.PictureBox outputImage;
         private System.Windows.Forms.Label barcodelabel;
         private System.Windows.Forms.Label barcode;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label solderingfails;
     }
 }
 

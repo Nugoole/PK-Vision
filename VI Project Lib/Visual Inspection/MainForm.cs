@@ -12,9 +12,9 @@ using VI_Project_Lib;
 
 namespace Visual_Inspection
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -24,9 +24,12 @@ namespace Visual_Inspection
             string filepath = "..\\..\\ImageSources\\pcb_barcode.jpg";
             ImProcess process = new ImProcess(filepath);
             //MessageBox.Show(Directory.GetCurrentDirectory());
+            
+            barcode.Text = process.GetBarcodeCode();
+            process.ChangeContrast(0.2);
+            process.CircleDetect();
             outputImage.Image = process.GetBitmap();
             outputImage.SizeMode = PictureBoxSizeMode.StretchImage;
-            barcode.Text = process.getBarcodeCode();
         }
     }
 }
