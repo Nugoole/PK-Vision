@@ -3,11 +3,14 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
 using Emgu.CV.UI;
+using Emgu.CV.XFeatures2D;
 using System;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using ZXing;
+using Emgu.CV.Features2D;
+using Emgu.CV.Cuda;
 
 namespace VI_Project_Lib
 {
@@ -18,12 +21,22 @@ namespace VI_Project_Lib
             ReadImage(filepath);
         }
         
-        private Mat imgData { get; set; }
+        public Mat imgData { get; private set; }
 
-        public Bitmap GetBitmap()
+        public Bitmap GetBitmap(Mat image = null)
         {
+            if (image == null)
+            {
+                if (imgData != null)
+                    return imgData.ToImage<Bgr, Byte>().ToBitmap();
+                else
+                    return null;
+            }
+            else
+                return image.ToImage<Bgr, Byte>().ToBitmap();
+
             //CvInvoke.CvtColor(imgData, imgData, ColorConversion.Gray2Rgba);
-            return imgData.ToImage<Bgr, Byte>().ToBitmap();
+
         }
         public void ReadImage(string filepath)
         {
@@ -73,6 +86,93 @@ namespace VI_Project_Lib
                 CvInvoke.Circle(imgData, new Point((int)circle.Center.X, (int)circle.Center.Y), 5, new MCvScalar(255));
                 //CvInvoke.Circle(imgData, new Point((int)circle.Center.X, (int)circle.Center.Y), (int)circle.Radius, new MCvScalar(255));
                 CvInvoke.Rectangle(imgData, new Rectangle((int)circle.Center.X - (int)circle.Radius, (int)circle.Center.Y - (int)circle.Radius, 2 * (int)circle.Radius, 2 * (int)circle.Radius),new MCvScalar(255));
+            }
+        }
+
+        public void doSurf(Mat observedImage, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints,
+            VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
+        {
+            modelKeyPoints = new VectorOfKeyPoint();
+            observedKeyPoints = new VectorOfKeyPoint();
+            homography = null;
+
+            double hessianThresh = 300;
+            using (UMat uImage = imgData.GetUMat(AccessType.Read))
+            using (UMat uObservedImage = observedImage.GetUMat(AccessType.Read))
+            {
+                
+                SURF surf = new SURF(hessianThresh);
+                UMat modelScriptors = new UMat();
+                surf.DetectAndCompute(uImage, null, modelKeyPoints, modelScriptors, false);
+
+
+                UMat observedDescriptors = new UMat();
+                surf.DetectAndCompute(uObservedImage, null, observedKeyPoints, observedDescriptors, false);
+                BFMatcher matcher = new BFMatcher(DistanceType.L2);
+                matcher.Add(modelScriptors);
+
+                matcher.KnnMatch(observedDescriptors, matches, 2, null);
+                mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
+                mask.SetTo(new MCvScalar(255));
+                Features2DToolbox.VoteForUniqueness(matches, 0.8, mask);
+
+                int nonZeroCount = CvInvoke.CountNonZero(mask);
+
+                if(nonZeroCount >=4)
+                {
+                    nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.5, 20);
+
+                    if (nonZeroCount >= 4)
+                        homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
+                }
+            }
+        }
+
+        public Mat getSurfResult()
+        {
+            string observedImagePath = "..\\..\\ImageSources\\observed.png";
+
+            Mat homography;
+            Mat observedImage = new ImProcess(observedImagePath).imgData;
+            VectorOfKeyPoint modelKeyPoints;
+            VectorOfKeyPoint observedKeyPoints;
+
+            using(VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
+            {
+                Mat mask;
+                
+                
+                doSurf(observedImage, out modelKeyPoints, out observedKeyPoints, matches,
+                    out mask, out homography);
+
+                Mat result = new Mat();
+                Features2DToolbox.DrawMatches(imgData, modelKeyPoints, observedImage, observedKeyPoints, matches, result,
+                    new MCvScalar(255, 255, 255), new MCvScalar(255, 255, 255), mask);
+                
+                
+                if(homography != null)
+                {
+                    Rectangle rect = new Rectangle(Point.Empty, imgData.Size);
+                    PointF[] pts = new PointF[]
+                    {
+                        new PointF(rect.Left, rect.Bottom),
+                        new PointF(rect.Right, rect.Bottom),
+                        new PointF(rect.Right, rect.Top),
+                        new PointF(rect.Left,rect.Top)
+                    };
+
+                    pts = CvInvoke.PerspectiveTransform(pts, homography);
+
+                    Point[] points = Array.ConvertAll<PointF, Point>(pts, Point.Round);
+                    using(VectorOfPoint vp = new VectorOfPoint(points))
+                    {
+                        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 5);
+                    }
+
+                    
+                }
+                return result;
+
             }
         }
     }

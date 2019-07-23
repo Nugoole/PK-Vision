@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Emgu.CV;
+using Emgu.CV.Util;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -27,8 +29,16 @@ namespace Visual_Inspection
             
             barcode.Text = process.GetBarcodeCode();
             process.ChangeContrast(0.2);
-            process.CircleDetect();
-            panAndZoomPictureBox1.Image = process.GetBitmap();
+            //process.CircleDetect();
+
+            //===============SURF===================
+            
+
+
+
+            //======================================
+
+            panAndZoomPictureBox1.Image = process.GetBitmap(process.getSurfResult());
             panAndZoomPictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
     }
