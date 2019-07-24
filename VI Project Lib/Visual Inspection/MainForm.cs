@@ -1,5 +1,4 @@
-﻿using Emgu.CV;
-using Emgu.CV.Util;
+﻿using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +22,8 @@ namespace Visual_Inspection
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            string filepath = "..\\..\\ImageSources\\pcb_barcode.jpg";
+            string filepath = "..\\..\\ImageSources\\raspberry.jpg";
+            string filepath2 = "..\\..\\ImageSources\\observed.png";
             ImProcess process = new ImProcess(filepath);
             //MessageBox.Show(Directory.GetCurrentDirectory());
             
@@ -32,14 +32,14 @@ namespace Visual_Inspection
             //process.CircleDetect();
 
             //===============SURF===================
-            
+
 
 
 
             //======================================
-
-            panAndZoomPictureBox1.Image = process.GetBitmap(process.getSurfResult());
-            panAndZoomPictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            //MessageBox.Show(process.MatchBySurf(filepath, filepath2).ToString());
+            pictureBoxIpl1.Image = process.GetBitmap();
+            pictureBoxIpl1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
     }
 }
