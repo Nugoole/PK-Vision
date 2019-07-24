@@ -22,14 +22,14 @@ namespace Visual_Inspection
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            string filepath = "..\\..\\ImageSources\\raspberry.jpg";
+            string filepath = "..\\..\\ImageSources\\pcb_barcode.jpg";
             string filepath2 = "..\\..\\ImageSources\\observed.png";
             ImProcess process = new ImProcess(filepath);
             //MessageBox.Show(Directory.GetCurrentDirectory());
             
             barcode.Text = process.GetBarcodeCode();
             process.ChangeContrast(0.2);
-            //process.CircleDetect();
+            process.CircleDetect();
 
             //===============SURF===================
 

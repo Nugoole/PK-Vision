@@ -52,19 +52,6 @@ namespace VI_Project_Lib
             //imgData *= value;
         }
         
-        public void CircleDetect()
-        {
-            Cv2.CvtColor(imgData, imgData, ColorConversionCodes.BGR2GRAY);
-            Cv2.GaussianBlur(imgData, imgData, new OpenCvSharp.Size(7, 7), 3, 3);
-            CircleSegment[] circles = Cv2.HoughCircles(imgData,HoughMethods.Gradient, 1, imgData.Rows / 50,50,40,0,30);
-
-            foreach(var circle in circles)
-            {
-                Cv2.Circle(imgData, new OpenCvSharp.Point((int)circle.Center.X, (int)circle.Center.Y), 5, new Scalar(255));
-                //CvInvoke.Circle(imgData, new Point((int)circle.Center.X, (int)circle.Center.Y), (int)circle.Radius, new MCvScalar(255));
-                Cv2.Rectangle(imgData, new Rect((int)circle.Center.X - (int)circle.Radius, (int)circle.Center.Y - (int)circle.Radius, 2 * (int)circle.Radius, 2 * (int)circle.Radius),new Scalar(255));
-            }
-        }
 
         public int MatchBySurf(string filepath1, string filepath2)
         {

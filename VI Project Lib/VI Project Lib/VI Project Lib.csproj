@@ -69,6 +69,8 @@
     <Compile Include="BarcodeDetection.cs" />
     <Compile Include="ImProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ROIs.cs" />
+    <Compile Include="SolderingCheck.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="License-LGPL.txt" />
