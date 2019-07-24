@@ -5,6 +5,7 @@ using ZXing;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using OpenCvSharp.XFeatures2D;
+using System.Drawing;
 
 namespace VI_Project_Lib
 {
@@ -12,6 +13,10 @@ namespace VI_Project_Lib
     {
         
         public Mat imgData { get; private set; }
+        public ImProcess(Mat img)
+        {
+            img.CopyTo(imgData);
+        }
 
         public ImProcess(string filepath)
         {
@@ -45,6 +50,8 @@ namespace VI_Project_Lib
 
             Cv2.ImShow(windowName, imgData);
         }
+
+        
 
         public void ChangeContrast(double value)
         {
@@ -92,6 +99,11 @@ namespace VI_Project_Lib
             }
 
             return keypoints2.Count();
+        }
+
+        public static Bitmap toBitmap(Mat mat)
+        {
+            return BitmapConverter.ToBitmap(mat);
         }
     }
 }

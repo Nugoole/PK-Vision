@@ -34,6 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.solderingfails = new System.Windows.Forms.Label();
             this.pictureBoxIpl1 = new OpenCvSharp.UserInterface.PictureBoxIpl();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIpl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,7 +51,7 @@
             // barcodelabel
             // 
             this.barcodelabel.AutoSize = true;
-            this.barcodelabel.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.barcodelabel.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.barcodelabel.Location = new System.Drawing.Point(522, 382);
             this.barcodelabel.Name = "barcodelabel";
             this.barcodelabel.Size = new System.Drawing.Size(95, 19);
@@ -60,7 +61,7 @@
             // barcode
             // 
             this.barcode.AutoSize = true;
-            this.barcode.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.barcode.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.barcode.Location = new System.Drawing.Point(612, 382);
             this.barcode.Name = "barcode";
             this.barcode.Size = new System.Drawing.Size(0, 19);
@@ -69,7 +70,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.Location = new System.Drawing.Point(522, 338);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(142, 19);
@@ -79,7 +80,7 @@
             // solderingfails
             // 
             this.solderingfails.AutoSize = true;
-            this.solderingfails.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.solderingfails.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.solderingfails.Location = new System.Drawing.Point(658, 338);
             this.solderingfails.Name = "solderingfails";
             this.solderingfails.Size = new System.Drawing.Size(0, 19);
@@ -93,11 +94,22 @@
             this.pictureBoxIpl1.TabIndex = 6;
             this.pictureBoxIpl1.TabStop = false;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(694, 119);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "Initialize";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.pictureBoxIpl1);
             this.Controls.Add(this.solderingfails);
             this.Controls.Add(this.label1);
@@ -119,6 +131,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label solderingfails;
         private OpenCvSharp.UserInterface.PictureBoxIpl pictureBoxIpl1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

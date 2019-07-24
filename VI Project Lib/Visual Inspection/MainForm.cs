@@ -15,6 +15,8 @@ namespace Visual_Inspection
 {
     public partial class MainForm : Form
     {
+        public List<ROI> ROIs { get; set; }
+        public ImProcess process { get; private set; }
         public MainForm()
         {
             InitializeComponent();
@@ -24,22 +26,24 @@ namespace Visual_Inspection
         {
             string filepath = "..\\..\\ImageSources\\pcb_barcode.jpg";
             string filepath2 = "..\\..\\ImageSources\\observed.png";
-            ImProcess process = new ImProcess(filepath);
-            //MessageBox.Show(Directory.GetCurrentDirectory());
+            process = new ImProcess(filepath);
+            ROIs = new List<ROI>();
             
             barcode.Text = process.GetBarcodeCode();
-            process.ChangeContrast(0.2);
-            process.CircleDetect();
 
-            //===============SURF===================
+            if (ROIs.Count == 0)
+            {
+                process.CircleDetect();
 
+                pictureBoxIpl1.Image = process.GetBitmap();
+                pictureBoxIpl1.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+        }
 
-
-
-            //======================================
-            //MessageBox.Show(process.MatchBySurf(filepath, filepath2).ToString());
-            pictureBoxIpl1.Image = process.GetBitmap();
-            pictureBoxIpl1.SizeMode = PictureBoxSizeMode.StretchImage;
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            ROI_Setting form = new ROI_Setting(process.imgData);
+            form.Show();
         }
     }
 }
