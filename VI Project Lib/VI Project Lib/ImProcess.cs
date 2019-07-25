@@ -11,10 +11,11 @@ namespace VI_Project_Lib
 {
     public partial class ImProcess
     {
-        
-        public Mat imgData { get; private set; }
-        public ImProcess(Mat img)
+
+        public Mat imgData;
+        public ImProcess(ref Mat img)
         {
+            imgData = new Mat();
             img.CopyTo(imgData);
         }
 

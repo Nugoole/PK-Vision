@@ -12,23 +12,22 @@ namespace VI_Project_Lib
     public class ROI
     {
         public string Name { get; private set; }
-        public Point location { get; private set; }
-        public Mat roi { get; private set; }
+        public Point location { get; set; }
+        public Mat roi;
         public CheckType checkType { get; private set; }
-        public ROI(Mat crop, Point point, CheckType type, string RoiName)
+        public ROI( string RoiName, CheckType type)
         {
             Name = RoiName;
-            roi = crop;
-            location = point;
             checkType = type;
+            roi = new Mat();
         }
 
         public void Check(Mat original)
         {
-            ImProcess process = new ImProcess(original);
+            ImProcess process = new ImProcess(ref roi);
             process.CircleDetect();
             Rect roiRect = new Rect(location, roi.Size());
-            original[roiRect] += process.imgData;
+            //original[roiRect] += process.imgData;
         }
     }
 }

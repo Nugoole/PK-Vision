@@ -33,7 +33,7 @@ namespace Visual_Inspection
 
             if (ROIs.Count == 0)
             {
-                process.CircleDetect();
+                //process.CircleDetect();
 
                 pictureBoxIpl1.Image = process.GetBitmap();
                 pictureBoxIpl1.SizeMode = PictureBoxSizeMode.StretchImage;
