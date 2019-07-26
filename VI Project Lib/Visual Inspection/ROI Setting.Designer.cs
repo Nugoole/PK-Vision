@@ -28,17 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.pictureBoxIpl1 = new OpenCvSharp.UserInterface.PictureBoxIpl();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.startLocationVal = new System.Windows.Forms.Label();
             this.NowLocationVal = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lstbxROI = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.bdsROIs = new System.Windows.Forms.BindingSource(this.components);
+            this.listbxPreset = new System.Windows.Forms.ListBox();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIpl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bdsROIs)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBoxIpl1
@@ -86,34 +85,55 @@
             this.NowLocationVal.Size = new System.Drawing.Size(0, 12);
             this.NowLocationVal.TabIndex = 2;
             // 
-            // listBox1
+            // lstbxROI
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Items.AddRange(new object[] {
-            "Name"});
-            this.listBox1.Location = new System.Drawing.Point(565, 170);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(205, 208);
-            this.listBox1.TabIndex = 3;
+            this.lstbxROI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lstbxROI.FormattingEnabled = true;
+            this.lstbxROI.ItemHeight = 12;
+            this.lstbxROI.Location = new System.Drawing.Point(662, 190);
+            this.lstbxROI.Name = "lstbxROI";
+            this.lstbxROI.Size = new System.Drawing.Size(99, 194);
+            this.lstbxROI.TabIndex = 3;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(695, 30);
+            this.button1.Location = new System.Drawing.Point(686, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
-            this.button1.Text = "등록";
+            this.button1.Text = "Save ROI";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
+            // listbxPreset
+            // 
+            this.listbxPreset.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listbxPreset.FormattingEnabled = true;
+            this.listbxPreset.ItemHeight = 12;
+            this.listbxPreset.Location = new System.Drawing.Point(531, 190);
+            this.listbxPreset.Name = "listbxPreset";
+            this.listbxPreset.Size = new System.Drawing.Size(99, 194);
+            this.listbxPreset.TabIndex = 3;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(531, 12);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(108, 23);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Save Preset";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button1_Click);
             // 
             // ROI_Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.listbxPreset);
+            this.Controls.Add(this.lstbxROI);
             this.Controls.Add(this.NowLocationVal);
             this.Controls.Add(this.startLocationVal);
             this.Controls.Add(this.label2);
@@ -122,7 +142,6 @@
             this.Name = "ROI_Setting";
             this.Text = "ROI_Setting";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIpl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bdsROIs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,8 +154,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label startLocationVal;
         private System.Windows.Forms.Label NowLocationVal;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox lstbxROI;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.BindingSource bdsROIs;
+        private System.Windows.Forms.ListBox listbxPreset;
+        private System.Windows.Forms.Button button2;
     }
 }

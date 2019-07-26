@@ -22,12 +22,13 @@ namespace VI_Project_Lib
             roi = new Mat();
         }
 
-        public void Check(Mat original)
+        public int Check(Mat original)
         {
             ImProcess process = new ImProcess(ref roi);
-            process.CircleDetect();
+            
             Rect roiRect = new Rect(location, roi.Size());
-            //original[roiRect] += process.imgData;
+            return process.CircleDetect();
+            original[roiRect] += process.imgData;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using VI_Project_Lib;
@@ -22,19 +23,25 @@ namespace Visual_Inspection
         public Mat temp { get; set; }
 
         public ROI roitemp { get; set; }
+        public ListBox.ObjectCollection ROI_list { get; set; }
 
 
         public ROI_Setting(Mat img)
         {
             InitializeComponent();
+
+            //원 이미지 저장
             original = new Mat();
-            temp = new Mat();
             img.CopyTo(original);
+
+
+            temp = new Mat();
             rois = new List<ROI>();
             roitemp = new ROI($"ROI {rois.Count}", CheckType.Soldering);
             roiRect = new Rect();
-            bdsROIs.DataSource = rois;
-            listBox1.DataSource = bdsROIs;
+            ROI_list = new ListBox.ObjectCollection(lstbxROI);
+            
+
             pictureBoxIpl1.Image = BitmapConverter.ToBitmap(img);
             pictureBoxIpl1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -50,7 +57,7 @@ namespace Visual_Inspection
             Cv2.Line(temp, 137, 0, 137, 200, new Scalar(255, 255, 255), 5);
             pictureBoxIpl1.Image = BitmapConverter.ToBitmap(temp);
             original[roiRect].CopyTo(roitemp.roi);
-            roitemp.Check(temp);
+            MessageBox.Show(roitemp.Check(temp).ToString());
             Cv2.ImShow("cropped", roitemp.roi);
             mouseClicked = false;
         }
@@ -75,10 +82,10 @@ namespace Visual_Inspection
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            listBox1.BeginUpdate();
             rois.Add(roitemp);
-            listBox1.DataSource = rois;
-            listBox1.EndUpdate();
+            lstbxROI.BeginUpdate();
+            ROI_list.Add(roitemp.Name);
+            lstbxROI.EndUpdate();
             
             roitemp = new ROI($"ROI {rois.Count}", CheckType.Soldering);
             MessageBox.Show(roitemp.Name);
