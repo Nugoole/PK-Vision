@@ -77,6 +77,7 @@ namespace Visual_Inspection
                 Cv2.Rectangle(temp, roiRect, new Scalar(0, 255, 0), 3);
 
                 NowPreset = presets.Where(x => x.PresetName == listbxPreset.SelectedItem.ToString()).ToList()[0];
+                //TODO : ROI클래스의 roi(Mat)를 참조하여 사이즈를 가져옴, 사이즈를 저장하는 프로퍼티 만들고 Mat는 따로 만들도록 해야할 듯
                 if(NowPreset.ROIs != null)
                     NowPreset.ROIs.ForEach(x => Cv2.Rectangle(temp, new Rect(x.location.X * original.Cols / pictureBoxIpl1.Size.Width, x.location.Y * original.Rows / pictureBoxIpl1.Size.Height, x.roi.Size().Width, x.roi.Size().Height), new Scalar(0, 255, 0), 3));
                 pictureBoxIpl1.Image.Dispose();
