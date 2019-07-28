@@ -34,9 +34,10 @@
             this.startLocationVal = new System.Windows.Forms.Label();
             this.NowLocationVal = new System.Windows.Forms.Label();
             this.lstbxROI = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.listbxPreset = new System.Windows.Forms.ListBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnSavePreset = new System.Windows.Forms.Button();
+            this.btnNewPreset = new System.Windows.Forms.Button();
+            this.btnSaveROI = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIpl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,16 +96,6 @@
             this.lstbxROI.Size = new System.Drawing.Size(99, 194);
             this.lstbxROI.TabIndex = 3;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(686, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Save ROI";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
             // listbxPreset
             // 
             this.listbxPreset.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -114,24 +105,46 @@
             this.listbxPreset.Name = "listbxPreset";
             this.listbxPreset.Size = new System.Drawing.Size(99, 194);
             this.listbxPreset.TabIndex = 3;
+            this.listbxPreset.SelectedIndexChanged += new System.EventHandler(this.ListbxPreset_SelectedIndexChanged);
             // 
-            // button2
+            // btnSavePreset
             // 
-            this.button2.Location = new System.Drawing.Point(531, 12);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Save Preset";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.Button1_Click);
+            this.btnSavePreset.Location = new System.Drawing.Point(522, 403);
+            this.btnSavePreset.Name = "btnSavePreset";
+            this.btnSavePreset.Size = new System.Drawing.Size(108, 23);
+            this.btnSavePreset.TabIndex = 4;
+            this.btnSavePreset.Text = "Save Preset";
+            this.btnSavePreset.UseVisualStyleBackColor = true;
+            this.btnSavePreset.Click += new System.EventHandler(this.BtnSavePreset_Click);
+            // 
+            // btnNewPreset
+            // 
+            this.btnNewPreset.Location = new System.Drawing.Point(525, 21);
+            this.btnNewPreset.Name = "btnNewPreset";
+            this.btnNewPreset.Size = new System.Drawing.Size(93, 23);
+            this.btnNewPreset.TabIndex = 5;
+            this.btnNewPreset.Text = "New Preset";
+            this.btnNewPreset.UseVisualStyleBackColor = true;
+            this.btnNewPreset.Click += new System.EventHandler(this.BtnNewPreset_Click);
+            // 
+            // btnSaveROI
+            // 
+            this.btnSaveROI.Location = new System.Drawing.Point(662, 21);
+            this.btnSaveROI.Name = "btnSaveROI";
+            this.btnSaveROI.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveROI.TabIndex = 4;
+            this.btnSaveROI.Text = "Save ROI";
+            this.btnSaveROI.UseVisualStyleBackColor = true;
+            this.btnSaveROI.Click += new System.EventHandler(this.BtnSaveROI_Click);
             // 
             // ROI_Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnNewPreset);
+            this.Controls.Add(this.btnSavePreset);
+            this.Controls.Add(this.btnSaveROI);
             this.Controls.Add(this.listbxPreset);
             this.Controls.Add(this.lstbxROI);
             this.Controls.Add(this.NowLocationVal);
@@ -141,6 +154,7 @@
             this.Controls.Add(this.pictureBoxIpl1);
             this.Name = "ROI_Setting";
             this.Text = "ROI_Setting";
+            this.Load += new System.EventHandler(this.ROI_Setting_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIpl1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -155,8 +169,9 @@
         private System.Windows.Forms.Label startLocationVal;
         private System.Windows.Forms.Label NowLocationVal;
         private System.Windows.Forms.ListBox lstbxROI;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listbxPreset;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnSavePreset;
+        private System.Windows.Forms.Button btnNewPreset;
+        private System.Windows.Forms.Button btnSaveROI;
     }
 }

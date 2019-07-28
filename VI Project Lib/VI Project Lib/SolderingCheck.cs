@@ -9,7 +9,7 @@ namespace VI_Project_Lib
 {
     public partial class ImProcess
     {
-        public int CircleDetect()
+        public void CircleDetect()
         {
             Cv2.CvtColor(imgData, imgData, ColorConversionCodes.BGR2GRAY);
             Cv2.GaussianBlur(imgData, imgData, new OpenCvSharp.Size(7, 7), 1, 1);
@@ -23,9 +23,6 @@ namespace VI_Project_Lib
             }
 
             Cv2.ImShow("circle", imgData);
-
-            return circles.Count();
-            
         }
     }
 }
