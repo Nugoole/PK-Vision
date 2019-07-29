@@ -13,7 +13,7 @@ namespace VI_Project_Lib
     {
 
         public Mat imgData;
-        public ImProcess(ref Mat img)
+        public ImProcess(Mat img)
         {
             imgData = new Mat();
             img.CopyTo(imgData);

@@ -39,15 +39,14 @@ namespace VI_Project_Lib
             string path = $@"..\\..\\JSON\\{PresetName}.json";
 
 
-            using (var tw = new StreamWriter(path, true))
+            using (var tw = new StreamWriter(path, false))
             {
-                tw.Flush();
                 tw.WriteLine(json);
                 tw.Close();
             }
         }
 
-        public static List<string> LoadJson(List<Preset> presets)
+        public static void LoadJson(List<Preset> presets)
         {
             var jsonfiles = Directory.GetFiles(@"..\\..\\JSON\\", "*.json");
 
@@ -58,8 +57,6 @@ namespace VI_Project_Lib
                 presets.Add(JsonConvert.DeserializeObject<Preset>(reader.ReadToEnd()));
                 reader.Dispose();
             }
-
-            return presets.Select(x => x.PresetName).ToList();
         }
     }
 }

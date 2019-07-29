@@ -50,7 +50,7 @@ namespace Visual_Inspection
 
         private void PictureBoxIpl1_MouseDown(object sender, MouseEventArgs e)
         {
-            roitemp.location = new OpenCvSharp.Point(e.X, e.Y);
+            roitemp.location = new OpenCvSharp.Point(e.X , e.Y );
             mouseClicked = true;
         }
 
@@ -58,9 +58,10 @@ namespace Visual_Inspection
         {
             Cv2.Line(temp, 137, 0, 137, 200, new Scalar(255, 255, 255), 5);
             pictureBoxIpl1.Image = BitmapConverter.ToBitmap(temp);
-            original[roiRect].CopyTo(roitemp.roi);
+            roitemp.location  = new OpenCvSharp.Point(roitemp.location.X * original.Cols / pictureBoxIpl1.Size.Width, roitemp.location.Y * original.Rows / pictureBoxIpl1.Size.Height);
+            roitemp.ROISize = roiRect.Size;//new OpenCvSharp.Size(roiRect.Width * original.Cols / pictureBoxIpl1.Size.Width, roiRect.Size.Height * original.Rows / pictureBoxIpl1.Size.Height);
             roitemp.Check(temp);
-            Cv2.ImShow("cropped", roitemp.roi);
+            //Cv2.ImShow("cropped", roitemp.roi);
             mouseClicked = false;
         }
 
@@ -68,8 +69,6 @@ namespace Visual_Inspection
         {
             if(mouseClicked)
             {
-                startLocationVal.Text = roitemp.location.X.ToString();
-                NowLocationVal.Text = e.X.ToString();
                 roiRect.Location = new OpenCvSharp.Point(Math.Min(roitemp.location.X, e.X) * original.Cols / pictureBoxIpl1.Size.Width , Math.Min(roitemp.location.Y, e.Y) * original.Rows / pictureBoxIpl1.Size.Height);
                 roiRect.Size = new OpenCvSharp.Size(Math.Abs(roitemp.location.X - e.X) * original.Cols / pictureBoxIpl1.Size.Width, Math.Abs(roitemp.location.Y - e.Y) * original.Rows / pictureBoxIpl1.Size.Height);
                 
@@ -77,9 +76,8 @@ namespace Visual_Inspection
                 Cv2.Rectangle(temp, roiRect, new Scalar(0, 255, 0), 3);
 
                 NowPreset = presets.Where(x => x.PresetName == listbxPreset.SelectedItem.ToString()).ToList()[0];
-                //TODO : ROI클래스의 roi(Mat)를 참조하여 사이즈를 가져옴, 사이즈를 저장하는 프로퍼티 만들고 Mat는 따로 만들도록 해야할 듯
                 if(NowPreset.ROIs != null)
-                    NowPreset.ROIs.ForEach(x => Cv2.Rectangle(temp, new Rect(x.location.X * original.Cols / pictureBoxIpl1.Size.Width, x.location.Y * original.Rows / pictureBoxIpl1.Size.Height, x.roi.Size().Width, x.roi.Size().Height), new Scalar(0, 255, 0), 3));
+                    NowPreset.ROIs.ForEach(x => Cv2.Rectangle(temp, new Rect(x.location.X , x.location.Y , x.ROISize.Width, x.ROISize.Height), new Scalar(0, 255, 0), 3));
                 pictureBoxIpl1.Image.Dispose();
                 pictureBoxIpl1.Image = BitmapConverter.ToBitmap(temp);
             }
@@ -119,7 +117,7 @@ namespace Visual_Inspection
 
         private void BtnSaveROI_Click(object sender, EventArgs e)
         {
-            NowPreset = presets.Where(x => x.PresetName == listbxPreset.SelectedItem.ToString()).ToList()[0];
+            NowPreset = presets.Find(x => x.PresetName == listbxPreset.SelectedItem.ToString());
             roitemp.Name = $"ROI {NowPreset.ROIs.Count}";
             NowPreset.ROIs.Add(roitemp);
             lstbxROI.BeginUpdate();
@@ -134,7 +132,8 @@ namespace Visual_Inspection
         private void ROI_Setting_Load(object sender, EventArgs e)
         {
             listbxPreset.BeginUpdate();
-            Preset.LoadJson(presets).ForEach(x=>listbxPreset.Items.Add(x));
+            Preset.LoadJson(presets);
+            presets.ForEach(x => listbxPreset.Items.Add(x.PresetName));
             listbxPreset.EndUpdate();
         }
     }

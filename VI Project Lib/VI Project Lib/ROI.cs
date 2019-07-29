@@ -16,6 +16,7 @@ namespace VI_Project_Lib
         public string Name { get; set; }
         public Point location { get; set; }
         public CheckType checkType { get; private set; }
+        public Size ROISize { get; set; }
 
         [ScriptIgnore]
         public Mat roi;
@@ -33,14 +34,14 @@ namespace VI_Project_Lib
         {
             Name = RoiName;
             checkType = type;
-            roi = new Mat();
+            //roi = new Mat();
         }
 
         public void Check(Mat original)
         {
-            ImProcess process = new ImProcess(ref roi);
+            Rect roiRect = new Rect(location, ROISize);
+            ImProcess process = new ImProcess(original[roiRect]);
             
-            Rect roiRect = new Rect(location, roi.Size());
             process.CircleDetect();
             original[roiRect] += process.imgData;
         }
