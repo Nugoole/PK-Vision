@@ -117,6 +117,7 @@
             this.Controls.Add(this.barcodelabel);
             this.Controls.Add(this.button1);
             this.Name = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIpl1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

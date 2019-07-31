@@ -6,6 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,7 +30,7 @@ namespace Visual_Inspection
             string filepath2 = "..\\..\\ImageSources\\observed.png";
             process = new ImProcess(filepath);
             ROIs = new List<ROI>();
-            
+
             barcode.Text = process.GetBarcodeCode();
 
             if (ROIs.Count == 0)
@@ -44,6 +46,36 @@ namespace Visual_Inspection
         {
             ROI_Setting form = new ROI_Setting(process.imgData);
             form.Show();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            TcpListener listener = new TcpListener(IPAddress.Any, 20);
+            listener.Start();
+
+            byte[] buff = new byte[1024];
+
+            FileStream file =  File.OpenWrite("..\\..\\ImageSources\\imgtest.jpg");
+            
+
+            TcpClient tc = listener.AcceptTcpClient();
+
+            NetworkStream stream = tc.GetStream();
+
+            int nbytes;
+            while ((nbytes = stream.Read(buff, 0, buff.Length)) > 0)
+            {
+                //MessageBox.Show(buff[0].ToString());
+                foreach (var buf in buff)
+                {
+                    
+                    file.WriteByte(buf);
+                }
+            }
+
+            stream.Close();
+            tc.Close();
+
         }
     }
 }
