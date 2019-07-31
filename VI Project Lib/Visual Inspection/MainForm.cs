@@ -24,7 +24,7 @@ namespace Visual_Inspection
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            string filepath = "..\\..\\ImageSources\\pcb_barcode.jpg";
+            string filepath = "..\\..\\ImageSources\\pcb4.jpg";
             string filepath2 = "..\\..\\ImageSources\\observed.png";
             process = new ImProcess(filepath);
             ROIs = new List<ROI>();

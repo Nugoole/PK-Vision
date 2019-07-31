@@ -13,7 +13,7 @@ namespace VI_Project_Lib
         {
             Cv2.CvtColor(imgData, imgData, ColorConversionCodes.BGR2GRAY);
             Cv2.GaussianBlur(imgData, imgData, new Size(7, 7), 1, 1);
-            CircleSegment[] circles = Cv2.HoughCircles(imgData, HoughMethods.Gradient, 0.7, imgData.Rows / 20, 50, 40);
+            CircleSegment[] circles = Cv2.HoughCircles(imgData, HoughMethods.Gradient, 0.7, Math.Max(imgData.Cols,imgData.Rows) / 20, 50, 40);
             Cv2.CvtColor(imgData, imgData, ColorConversionCodes.GRAY2BGR);
             foreach (var circle in circles)
             {

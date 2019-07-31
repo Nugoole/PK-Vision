@@ -42,7 +42,7 @@ namespace Visual_Inspection
             roitemp = new ROI(null, CheckType.Soldering);
             roiRect = new Rect();
             ROI_list = new ListBox.ObjectCollection(lstbxROI);
-            
+
 
             pictureBoxIpl1.Image = BitmapConverter.ToBitmap(img);
             pictureBoxIpl1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -50,36 +50,49 @@ namespace Visual_Inspection
 
         private void PictureBoxIpl1_MouseDown(object sender, MouseEventArgs e)
         {
-            roitemp.location = new OpenCvSharp.Point(e.X , e.Y );
-            mouseClicked = true;
+            if (NowPreset != null)
+            {
+                roitemp.location = new OpenCvSharp.Point(e.X, e.Y);
+                mouseClicked = true;
+            }
+            else
+                MessageBox.Show("프리셋을 선택해주세요!");
         }
 
         private void PictureBoxIpl1_MouseUp(object sender, MouseEventArgs e)
         {
-            Cv2.Line(temp, 137, 0, 137, 200, new Scalar(255, 255, 255), 5);
             pictureBoxIpl1.Image = BitmapConverter.ToBitmap(temp);
-            roitemp.location  = new OpenCvSharp.Point(roitemp.location.X * original.Cols / pictureBoxIpl1.Size.Width, roitemp.location.Y * original.Rows / pictureBoxIpl1.Size.Height);
-            roitemp.ROISize = roiRect.Size;//new OpenCvSharp.Size(roiRect.Width * original.Cols / pictureBoxIpl1.Size.Width, roiRect.Size.Height * original.Rows / pictureBoxIpl1.Size.Height);
+            roitemp.location = roiRect.TopLeft;
+            roitemp.ROISize = roiRect.Size;
             roitemp.Check(temp);
-            //Cv2.ImShow("cropped", roitemp.roi);
             mouseClicked = false;
         }
 
         private void PictureBoxIpl1_MouseMove(object sender, MouseEventArgs e)
         {
-            if(mouseClicked)
+            if (mouseClicked)
             {
-                roiRect.Location = new OpenCvSharp.Point(Math.Min(roitemp.location.X, e.X) * original.Cols / pictureBoxIpl1.Size.Width , Math.Min(roitemp.location.Y, e.Y) * original.Rows / pictureBoxIpl1.Size.Height);
-                roiRect.Size = new OpenCvSharp.Size(Math.Abs(roitemp.location.X - e.X) * original.Cols / pictureBoxIpl1.Size.Width, Math.Abs(roitemp.location.Y - e.Y) * original.Rows / pictureBoxIpl1.Size.Height);
-                
+                int X_Point = e.X;
+                int Y_Point = e.Y;
+
+                if (e.X >= pictureBoxIpl1.Width)
+                    X_Point = pictureBoxIpl1.Width;
+
+                if (e.Y >= pictureBoxIpl1.Height)
+                    Y_Point = pictureBoxIpl1.Height;
+
+                roiRect.Location = new OpenCvSharp.Point(Math.Min(roitemp.location.X, X_Point) * original.Cols / pictureBoxIpl1.Size.Width, Math.Min(roitemp.location.Y, Y_Point) * original.Rows / pictureBoxIpl1.Size.Height);
+                roiRect.Size = new OpenCvSharp.Size(Math.Abs(roitemp.location.X - X_Point) * original.Cols / pictureBoxIpl1.Size.Width, Math.Abs(roitemp.location.Y - Y_Point) * original.Rows / pictureBoxIpl1.Size.Height);
+
                 original.CopyTo(temp);
                 Cv2.Rectangle(temp, roiRect, new Scalar(0, 255, 0), 3);
 
-                NowPreset = presets.Where(x => x.PresetName == listbxPreset.SelectedItem.ToString()).ToList()[0];
-                if(NowPreset.ROIs != null)
-                    NowPreset.ROIs.ForEach(x => Cv2.Rectangle(temp, new Rect(x.location.X , x.location.Y , x.ROISize.Width, x.ROISize.Height), new Scalar(0, 255, 0), 3));
+                NowPreset = presets.Find(x => x.PresetName == listbxPreset.SelectedItem.ToString());
+                if (NowPreset.ROIs != null)
+                    NowPreset.ROIs.ForEach(x => Cv2.Rectangle(temp, new Rect(x.location.X, x.location.Y, x.ROISize.Width, x.ROISize.Height), new Scalar(0, 255, 0), 3));
                 pictureBoxIpl1.Image.Dispose();
                 pictureBoxIpl1.Image = BitmapConverter.ToBitmap(temp);
+
             }
         }
 
@@ -88,10 +101,12 @@ namespace Visual_Inspection
         {
             if (listbxPreset.SelectedItem != null)
             {
-                lstbxROI.Items.Clear();
-                NowPreset = presets.Where(x => x.PresetName == listbxPreset.SelectedItem.ToString()).ToList()[0];
+                lstbxROI.BeginUpdate();
+                ROI_list.Clear();
+                NowPreset = presets.Find(x => x.PresetName == listbxPreset.SelectedItem.ToString());
                 if (NowPreset.ROIs.Count != 0)
-                    lstbxROI.Items.AddRange(NowPreset.ROIs.Select(x => x.Name).ToArray());
+                    ROI_list.AddRange(NowPreset.ROIs.Select(x => x.Name).ToArray());
+                lstbxROI.EndUpdate();
             }
         }
 
@@ -106,7 +121,7 @@ namespace Visual_Inspection
                 listbxPreset.Items.Add(preset.PresetName);
                 presets.Add(preset);
             }
-            
+
             presetNameForm.Dispose();
         }
 
