@@ -26,13 +26,14 @@ namespace Visual_Inspection
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            string filepath = "..\\..\\ImageSources\\pcb4.jpg";
-            string filepath2 = "..\\..\\ImageSources\\observed.png";
+            string filepath = "..\\..\\ImageSources\\imgtest2.jpg";
+            string filepath2 = "..\\..\\ImageSources\\observed5.png";
             process = new ImProcess(filepath);
             ROIs = new List<ROI>();
 
             barcode.Text = process.GetBarcodeCode();
 
+            process.MatchBySurf(filepath, filepath2);
             if (ROIs.Count == 0)
             {
                 //process.CircleDetect();
@@ -50,31 +51,31 @@ namespace Visual_Inspection
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            TcpListener listener = new TcpListener(IPAddress.Any, 20);
-            listener.Start();
+            //TcpListener listener = new TcpListener(IPAddress.Any, 20);
+            //listener.Start();
 
-            byte[] buff = new byte[1024];
+            //byte[] buff = new byte[1024];
 
-            FileStream file =  File.OpenWrite("..\\..\\ImageSources\\imgtest.jpg");
+            //FileStream file =  File.OpenWrite("..\\..\\ImageSources\\imgtest.jpg");
             
 
-            TcpClient tc = listener.AcceptTcpClient();
+            //TcpClient tc = listener.AcceptTcpClient();
 
-            NetworkStream stream = tc.GetStream();
+            //NetworkStream stream = tc.GetStream();
 
-            int nbytes;
-            while ((nbytes = stream.Read(buff, 0, buff.Length)) > 0)
-            {
-                //MessageBox.Show(buff[0].ToString());
-                foreach (var buf in buff)
-                {
+            //int nbytes;
+            //while ((nbytes = stream.Read(buff, 0, buff.Length)) > 0)
+            //{
+            //    //MessageBox.Show(buff[0].ToString());
+            //    foreach (var buf in buff)
+            //    {
                     
-                    file.WriteByte(buf);
-                }
-            }
+            //        file.WriteByte(buf);
+            //    }
+            //}
 
-            stream.Close();
-            tc.Close();
+            //stream.Close();
+            //tc.Close();
 
         }
     }
