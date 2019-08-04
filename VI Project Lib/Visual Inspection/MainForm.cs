@@ -26,8 +26,8 @@ namespace Visual_Inspection
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            string filepath = "..\\..\\ImageSources\\imgtest2.jpg";
-            string filepath2 = "..\\..\\ImageSources\\observed5.png";
+            string filepath = "..\\..\\ImageSources\\imgtest3.jpg";
+            string filepath2 = "..\\..\\ImageSources\\observed2.jpg";
             process = new ImProcess(filepath);
             ROIs = new List<ROI>();
 

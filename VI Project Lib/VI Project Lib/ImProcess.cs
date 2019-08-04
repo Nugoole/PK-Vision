@@ -5,8 +5,6 @@ using ZXing;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using OpenCvSharp.XFeatures2D;
-using System.Drawing;
-using System.Windows;
 using System.Collections.Generic;
 
 namespace VI_Project_Lib
@@ -68,8 +66,8 @@ namespace VI_Project_Lib
             Mat src1 = new Mat(filepath1);
             Mat src2 = new Mat(filepath2);
 
-            Cv2.Resize(src1, src1, new OpenCvSharp.Size(src1.Size().Width / 3, src1.Size().Height / 3));
-            Cv2.Resize(src2, src2, new OpenCvSharp.Size(src2.Size().Width / 3, src2.Size().Height / 3));
+            Cv2.Resize(src1, src1, new Size(src1.Size().Width / 3, src1.Size().Height / 3));
+            Cv2.Resize(src2, src2, new Size(src2.Size().Width / 3, src2.Size().Height / 3));
 
             var gray1 = new Mat();
             var gray2 = new Mat();
@@ -79,7 +77,7 @@ namespace VI_Project_Lib
 
             Cv2.ImShow("gray1", gray1);
             Cv2.ImShow("gray2", gray2);
-            var surf = SIFT.Create(100000,5 , 0.04,5,1.6);
+            var surf = SIFT.Create(10000,2, 0.04,5,1.6);
             //var surf = SURF.Create(10000);
 
             // Detect the keypoints and generate their descriptors using SURF
@@ -92,15 +90,15 @@ namespace VI_Project_Lib
 
 
             // Match descriptor vectors 
-            //var bfMatcher = new BFMatcher(NormTypes.L2, false);
+            var bfMatcher = new BFMatcher(NormTypes.L2, false);
             OpenCvSharp.Flann.SearchParams sParam = new OpenCvSharp.Flann.SearchParams(50);
             
             var flannMatcher = new FlannBasedMatcher(null, sParam);
-            //DMatch[][] bfMatches = bfMatcher.KnnMatch(descriptors1, descriptors2, 2);
-            DMatch[][] flannMatches = flannMatcher.KnnMatch(descriptors1, descriptors2, 2);
+            DMatch[][] bfMatches = bfMatcher.KnnMatch(descriptors1, descriptors2, 2);
+            DMatch[][] flannMatches = flannMatcher.KnnMatch(descriptors1, descriptors2, 3);
 
             //find goodMatches
-            const float ratio_thresh = 0.5f;
+            const float ratio_thresh = 0.6f;
             DMatch[] goodMatches = new DMatch[flannMatches.Length];
             
             for (int i = 0; i < flannMatches.Length; i++)
@@ -119,11 +117,11 @@ namespace VI_Project_Lib
             //Cv2.DrawMatches(gray1, keypoints1, gray2, keypoints2, goodMatches, bfView, null, null, null, DrawMatchesFlags.NotDrawSinglePoints);
             var flannView = new Mat();
             
-
-
+            Cv2.DrawMatches(gray1, keypoints1, gray2, keypoints2, goodMatches, flannView,new Scalar(0,255,0),new Scalar(255,255,0),null, DrawMatchesFlags.Default);
 
             List<Point2f> obj = new List<Point2f>();
             List<Point2f> scene = new List<Point2f>();
+            if (goodMatches.Length == 0) return 0;
 
             for (int i = 0; i < goodMatches.Length; i++)
             {
@@ -131,26 +129,19 @@ namespace VI_Project_Lib
                 scene.Add(keypoints2[goodMatches[i].TrainIdx].Pt);
             }
 
-            Cv2.DrawMatches(gray1, keypoints1, gray2, keypoints2, goodMatches, flannView,new Scalar(0,255,0),new Scalar(255,255,0),null, DrawMatchesFlags.Default);
+            List<Point2d> obj_corners = new List<Point2d>();
+            obj_corners.Add(new Point(0, 0));
+            obj_corners.Add(new Point(src1.Cols, 0));
+            obj_corners.Add(new Point(src1.Cols, src1.Rows));
+            obj_corners.Add(new Point(0, src1.Rows));
+            List<Point2d> scene_corners = new List<Point2d>();
 
-            List<Point2d> objPts = obj.ConvertAll(Point2fToPoint2d);
-            List<Point2d> scenePts = scene.ConvertAll(Point2fToPoint2d);                
-            
-            Mat H = OpenCvSharp.Cv2.FindHomography(objPts, scenePts, HomographyMethods.Ransac);
+            Mat H = Cv2.FindHomography(obj.ConvertAll(Point2fToPoint2d), scene.ConvertAll(Point2fToPoint2d), HomographyMethods.None);
 
-            Mat objCorners = new Mat(new OpenCvSharp.Size(4,2), MatType.CV_32FC2), sceneCorners = new Mat();
-            Point2f[] objCornersData = new Point2f[]
-            {
-                new Point2f(0,0),
-                new Point2f(src1.Cols, 0),
-                new Point2f(src1.Cols, src1.Rows),
-                new Point2f(0, src1.Rows)
-            };
-            Point2d[] sceneCornersData = MyPerspectiveTransform3(objCornersData, H);
-            Cv2.PerspectiveTransform(objCorners, sceneCorners, H);
-            
-            
-            
+            if (H.Empty()) return 0;
+            scene_corners = Cv2.PerspectiveTransform(obj_corners, H).ToList();
+
+
 
             //List<List<OpenCvSharp.Point>> listoflistofpoint2d = new List<List<OpenCvSharp.Point>>();
             //List<OpenCvSharp.Point> listofPoint2D = new List<OpenCvSharp.Point>();
@@ -162,10 +153,10 @@ namespace VI_Project_Lib
             //flannView.Polylines(listoflistofpoint2d,true, Scalar.LimeGreen, 2);
 
 
-            Cv2.Line(flannView, (OpenCvSharp.Point)(sceneCornersData[0] + new Point2d(src1.Cols, 0)), (OpenCvSharp.Point)(sceneCornersData[1] + new Point2d(src1.Cols, 0)), Scalar.LimeGreen);
-            Cv2.Line(flannView, (OpenCvSharp.Point)(sceneCornersData[1] + new Point2d(src1.Cols, 0)), (OpenCvSharp.Point)(sceneCornersData[2] + new Point2d(src1.Cols, 0)), Scalar.LimeGreen);
-            Cv2.Line(flannView, (OpenCvSharp.Point)(sceneCornersData[2] + new Point2d(src1.Cols, 0)), (OpenCvSharp.Point)(sceneCornersData[3] + new Point2d(src1.Cols, 0)), Scalar.LimeGreen);
-            Cv2.Line(flannView, (OpenCvSharp.Point)(sceneCornersData[3] + new Point2d(src1.Cols, 0)), (OpenCvSharp.Point)(sceneCornersData[0] + new Point2d(src1.Cols, 0)), Scalar.LimeGreen);
+            Cv2.Line(flannView, (Point)(scene_corners[0] + new Point2d(src1.Cols, 0)), (Point)(scene_corners[1] + new Point2d(src1.Cols, 0)), Scalar.LimeGreen, 3);
+            Cv2.Line(flannView, (Point)(scene_corners[1] + new Point2d(src1.Cols, 0)), (Point)(scene_corners[2] + new Point2d(src1.Cols, 0)), Scalar.LimeGreen, 3);
+            Cv2.Line(flannView, (Point)(scene_corners[2] + new Point2d(src1.Cols, 0)), (Point)(scene_corners[3] + new Point2d(src1.Cols, 0)), Scalar.LimeGreen, 3);
+            Cv2.Line(flannView, (Point)(scene_corners[3] + new Point2d(src1.Cols, 0)), (Point)(scene_corners[0] + new Point2d(src1.Cols, 0)), Scalar.LimeGreen, 3);
 
             //using (new Window("SURF matching (by BFMather)", WindowMode.AutoSize, bfView))
             using (new Window("SURF matching (by FlannBasedMatcher)", WindowMode.AutoSize, flannView))
@@ -176,7 +167,7 @@ namespace VI_Project_Lib
             return keypoints2.Count();
         }
 
-        public static Bitmap toBitmap(Mat mat)
+        public static System.Drawing.Bitmap toBitmap(Mat mat)
         {
             return BitmapConverter.ToBitmap(mat);
         }
