@@ -26,8 +26,8 @@ namespace Visual_Inspection
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            string filepath = "..\\..\\ImageSources\\imgtest3.jpg";
-            string filepath2 = "..\\..\\ImageSources\\observed2.jpg";
+            string filepath = "..\\..\\ImageSources\\sample0.png";
+            string filepath2 = "..\\..\\ImageSources\\sample6.jpg";
             process = new ImProcess(filepath);
             ROIs = new List<ROI>();
 
@@ -51,32 +51,22 @@ namespace Visual_Inspection
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //TcpListener listener = new TcpListener(IPAddress.Any, 20);
-            //listener.Start();
+            //TcpClient tc = new TcpClient("169.254.195.141", 50001);
 
-            //byte[] buff = new byte[1024];
-
-            //FileStream file =  File.OpenWrite("..\\..\\ImageSources\\imgtest.jpg");
-            
-
-            //TcpClient tc = listener.AcceptTcpClient();
-
+            //FileStream file = new FileStream("..\\..\\ImageSources\\sample1.jpg", FileMode.Create);
+            //byte[] buffer = new byte[1024];
+            //int nbytes;
             //NetworkStream stream = tc.GetStream();
 
-            //int nbytes;
-            //while ((nbytes = stream.Read(buff, 0, buff.Length)) > 0)
+            ////FileStream file = new FileStream("..\\..\\ImageSources\\imgtest.jpg", FileMode.Create);
+
+            //while ((nbytes = stream.Read(buffer, 0, buffer.Length)) > 0)
             //{
-            //    //MessageBox.Show(buff[0].ToString());
-            //    foreach (var buf in buff)
-            //    {
-                    
-            //        file.WriteByte(buf);
-            //    }
+            //    file.Write(buffer, 0, nbytes);
             //}
 
             //stream.Close();
             //tc.Close();
-
         }
     }
 }
