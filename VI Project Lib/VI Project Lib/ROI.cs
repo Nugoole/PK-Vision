@@ -9,13 +9,13 @@ using System.Web.Script.Serialization;
 
 namespace VI_Project_Lib
 {
-    public enum CheckType { Soldering = 1, Pattern = 2};
+    public enum CheckType { Soldering = 1, Pattern = 2, BarCode = 3};
 
     public class ROI
     {
         public string Name { get; set; }
         public Point location { get; set; }
-        public CheckType checkType { get; private set; }
+        public CheckType checkType { get; set; }
         public Size ROISize { get; set; }
 
         [ScriptIgnore]
@@ -33,17 +33,30 @@ namespace VI_Project_Lib
         public ROI(string RoiName, CheckType type)
         {
             Name = RoiName;
-            checkType = type;
-            //roi = new Mat();
+            checkType = (CheckType)Enum.Parse(typeof(CheckType), type.ToString());
         }
 
-        public void Check(Mat original)
+        public string Check(Mat original)
         {
             Rect roiRect = new Rect(location, ROISize);
             ImProcess process = new ImProcess(original[roiRect]);
-            
-            process.CircleDetect();
-            original[roiRect] += process.imgData;
+
+
+            if (checkType == CheckType.Soldering)
+            {
+                process.CircleDetect();
+                //original[roiRect] += process.processImg;
+            }
+            else if (checkType == CheckType.BarCode)
+            {
+                return process.GetBarcodeCode(process.processImg);
+            }
+            else if (checkType == CheckType.Pattern)
+            {
+                process.PatternCheck();
+            }
+
+            return null;            
         }
     }
 }

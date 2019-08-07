@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarcodeDetection.cs" />
+    <Compile Include="DetectAndCrop.cs" />
     <Compile Include="ImProcess.cs" />
     <Compile Include="Preset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

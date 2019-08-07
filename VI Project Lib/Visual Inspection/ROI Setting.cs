@@ -64,7 +64,6 @@ namespace Visual_Inspection
             pictureBoxIpl1.Image = BitmapConverter.ToBitmap(temp);
             roitemp.location = roiRect.TopLeft;
             roitemp.ROISize = roiRect.Size;
-            roitemp.Check(temp);
             mouseClicked = false;
         }
 
@@ -95,7 +94,6 @@ namespace Visual_Inspection
 
             }
         }
-
 
         private void ListbxPreset_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -134,22 +132,52 @@ namespace Visual_Inspection
         {
             NowPreset = presets.Find(x => x.PresetName == listbxPreset.SelectedItem.ToString());
             roitemp.Name = $"ROI {NowPreset.ROIs.Count}";
+            roitemp.checkType = (CheckType)Enum.Parse(typeof(CheckType), (comboBox1.SelectedIndex + 1).ToString());
             NowPreset.ROIs.Add(roitemp);
             lstbxROI.BeginUpdate();
             ROI_list.Add(roitemp.Name);
             lstbxROI.EndUpdate();
-
-            roitemp = new ROI($"ROI {NowPreset.ROIs.Count}", CheckType.Soldering);
-            MessageBox.Show(roitemp.Name);
+            MessageBox.Show($"{roitemp.Name} , {(int)roitemp.checkType}, {roitemp.checkType}");
+            roitemp = new ROI($"ROI {NowPreset.ROIs.Count}", (CheckType)Enum.Parse(typeof(CheckType), (comboBox1.SelectedIndex + 1).ToString()));
+            
         }
 
-        //TODO : 로드되어 리스트에는 나오나 이미지 작업이 불가능 이를 수정
         private void ROI_Setting_Load(object sender, EventArgs e)
         {
             listbxPreset.BeginUpdate();
             Preset.LoadJson(presets);
             presets.ForEach(x => listbxPreset.Items.Add(x.PresetName));
             listbxPreset.EndUpdate();
+            //TODO : 콤보박스에 타입 넣기
+            comboBox1.Items.Add("Soldering");
+            comboBox1.Items.Add("Pattern");
+            comboBox1.Items.Add("Barcode");
+        }
+
+        private void LstbxROI_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                NowPreset.ROIs.Remove(NowPreset.ROIs.Find(x => x.Name == ROI_list[lstbxROI.SelectedIndex].ToString()));
+                lstbxROI.BeginUpdate();
+                ROI_list.Clear();
+                NowPreset = presets.Find(x => x.PresetName == listbxPreset.SelectedItem.ToString());
+                if (NowPreset.ROIs.Count != 0)
+                    ROI_list.AddRange(NowPreset.ROIs.Select(x => x.Name).ToArray());
+                lstbxROI.EndUpdate();
+
+                NowPreset.SaveJson();
+            }
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
         }
     }
 }

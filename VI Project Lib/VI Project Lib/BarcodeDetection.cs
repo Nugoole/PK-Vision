@@ -8,29 +8,30 @@ namespace VI_Project_Lib
 {
     public partial class ImProcess
     {
-        public string GetBarcodeCode()
+        public string GetBarcodeCode(Mat img = null)
         {
-            Bitmap bitmap = GetBitmap();
-            IBarcodeReader reader = new BarcodeReader();
+            Bitmap bitmap = GetBitmap(img);
+            BarcodeReader reader = new BarcodeReader();
 
-
-            Result[] results = reader.DecodeMultiple(bitmap);
+            Result results = reader.Decode(bitmap);
 
             if (results == null)
                 return "nothing";
-
-            for (int i = 0; i < 2; i++)
-                Cv2.Rectangle(imgData, new Rect((int)results[0].ResultPoints[i].X, (int)results[0].ResultPoints[i].Y, 50, 50), new Scalar(0, 255, 0));
-            StringBuilder builder = new StringBuilder();
-            foreach (var result in results)
-            {
-                builder.Append(result.Text);
-            }
-
-            if (builder != null)
-                return builder.ToString();
             else
-                return null;
+                return results.Text;
+
+            //for (int i = 0; i < results.Length; i++)
+            //    Cv2.Rectangle(imgData, new Rect((int)results[0].ResultPoints[i].X, (int)results[0].ResultPoints[i].Y, 50, 50), new Scalar(0, 255, 0));
+            //StringBuilder builder = new StringBuilder();
+            //foreach (var result in results)
+            //{
+            //    builder.Append(result.Text);
+            //}
+
+            //if (resu)
+            //    return builder.ToString();
+            //else
+            //    return null;
         }
     }
 }
