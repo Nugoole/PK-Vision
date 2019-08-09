@@ -20,7 +20,7 @@ namespace VI_Project_Lib
                 return "nothing";
 
             for (int i = 0; i < 2; i++)
-                Cv2.Rectangle(imgData, new Rect((int)results[0].ResultPoints[i].X, (int)results[0].ResultPoints[i].Y, 50, 50), new Scalar(0, 255, 0));
+                Cv2.Rectangle(originalImg, new Rect((int)results[0].ResultPoints[i].X, (int)results[0].ResultPoints[i].Y, 50, 50), new Scalar(0, 255, 0));
             StringBuilder builder = new StringBuilder();
             foreach (var result in results)
             {

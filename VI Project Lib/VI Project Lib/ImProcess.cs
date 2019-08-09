@@ -11,7 +11,8 @@ namespace VI_Project_Lib
     public partial class ImProcess
     {
         
-        public Mat imgData { get; private set; }
+        public Mat originalImg { get; private set; }
+        public Mat processImg { get; private set; }
 
         public ImProcess(string filepath)
         {
@@ -22,8 +23,8 @@ namespace VI_Project_Lib
         {
             if (image == null)
             {
-                if (imgData != null)
-                    return BitmapConverter.ToBitmap(imgData);
+                if (originalImg != null)
+                    return BitmapConverter.ToBitmap(originalImg);
                 else
                     return null;
             }
@@ -36,14 +37,14 @@ namespace VI_Project_Lib
 
         public void ReadImage(string filepath)
         {
-            imgData = Cv2.ImRead(filepath, ImreadModes.Color);
+            originalImg = Cv2.ImRead(filepath, ImreadModes.Color);
         }
 
         public void printImage(string windowName)
         {
             //CvInvoke.Resize(image, image,new Size(image.Size.Width / 3, image.Size.Height / 3));
 
-            Cv2.ImShow(windowName, imgData);
+            Cv2.ImShow(windowName, originalImg);
         }
 
         public void ChangeContrast(double value)
@@ -54,15 +55,15 @@ namespace VI_Project_Lib
         
         public void CircleDetect()
         {
-            Cv2.CvtColor(imgData, imgData, ColorConversionCodes.BGR2GRAY);
-            Cv2.GaussianBlur(imgData, imgData, new OpenCvSharp.Size(7, 7), 3, 3);
-            CircleSegment[] circles = Cv2.HoughCircles(imgData,HoughMethods.Gradient, 1, imgData.Rows / 50,50,40,0,30);
+            Cv2.CvtColor(originalImg, originalImg, ColorConversionCodes.BGR2GRAY);
+            Cv2.GaussianBlur(originalImg, originalImg, new OpenCvSharp.Size(7, 7), 3, 3);
+            CircleSegment[] circles = Cv2.HoughCircles(originalImg,HoughMethods.Gradient, 1, originalImg.Rows / 50,50,40,0,30);
 
             foreach(var circle in circles)
             {
-                Cv2.Circle(imgData, new OpenCvSharp.Point((int)circle.Center.X, (int)circle.Center.Y), 5, new Scalar(255));
+                Cv2.Circle(originalImg, new OpenCvSharp.Point((int)circle.Center.X, (int)circle.Center.Y), 5, new Scalar(255));
                 //CvInvoke.Circle(imgData, new Point((int)circle.Center.X, (int)circle.Center.Y), (int)circle.Radius, new MCvScalar(255));
-                Cv2.Rectangle(imgData, new Rect((int)circle.Center.X - (int)circle.Radius, (int)circle.Center.Y - (int)circle.Radius, 2 * (int)circle.Radius, 2 * (int)circle.Radius),new Scalar(255));
+                Cv2.Rectangle(originalImg, new Rect((int)circle.Center.X - (int)circle.Radius, (int)circle.Center.Y - (int)circle.Radius, 2 * (int)circle.Radius, 2 * (int)circle.Radius),new Scalar(255));
             }
         }
 
@@ -105,6 +106,32 @@ namespace VI_Project_Lib
             }
 
             return keypoints2.Count();
+        }
+
+        public System.Drawing.Bitmap CannyImage()
+        {
+            Cv2.Canny(originalImg, processImg, 10, 100);
+            return BitmapConverter.ToBitmap(processImg);
+        }
+
+        public System.Drawing.Bitmap Morphology()
+        {
+
+            Cv2.Canny(originalImg, processImg, 50, 230);
+
+            Mat cross = new Mat(3, 3, MatType.CV_8U, new Scalar(0));
+
+            // creating the cross-shaped structuring element
+            for (int i = 0; i < 3; i++)
+            {
+                cross.Set<byte>(2, i, 1);
+                cross.Set<byte>(i, 2, 1);
+            }
+
+            Mat result = new Mat();
+            Cv2.MorphologyEx(processImg, result, MorphTypes.TopHat, cross);
+
+            return BitmapConverter.ToBitmap(result);
         }
     }
 }
