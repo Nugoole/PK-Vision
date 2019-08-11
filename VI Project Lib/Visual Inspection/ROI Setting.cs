@@ -46,6 +46,12 @@ namespace Visual_Inspection
 
             pictureBoxIpl1.Image = BitmapConverter.ToBitmap(img);
             pictureBoxIpl1.SizeMode = PictureBoxSizeMode.StretchImage;
+
+
+            listbxPreset.BeginUpdate();
+            Preset.LoadJson(presets);
+            presets.ForEach(x => listbxPreset.Items.Add(x.PresetName));
+            listbxPreset.EndUpdate();
         }
 
         private void PictureBoxIpl1_MouseDown(object sender, MouseEventArgs e)
@@ -144,10 +150,7 @@ namespace Visual_Inspection
 
         private void ROI_Setting_Load(object sender, EventArgs e)
         {
-            listbxPreset.BeginUpdate();
-            Preset.LoadJson(presets);
-            presets.ForEach(x => listbxPreset.Items.Add(x.PresetName));
-            listbxPreset.EndUpdate();
+            
             //TODO : 콤보박스에 타입 넣기
             comboBox1.Items.Add("Soldering");
             comboBox1.Items.Add("Pattern");

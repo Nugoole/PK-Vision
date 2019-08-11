@@ -27,7 +27,7 @@ namespace VI_Project_Lib
             Cv2.CvtColor(src1, gray1, ColorConversionCodes.BGR2GRAY);
             Cv2.CvtColor(src2, gray2, ColorConversionCodes.BGR2GRAY);
 
-            var surf = SIFT.Create(400);
+            var surf = SURF.Create(600);
 
 
             // Detect the keypoints and generate their descriptors using SURF
@@ -39,8 +39,8 @@ namespace VI_Project_Lib
 
             // Match descriptor vectors 
 
-            OpenCvSharp.Flann.SearchParams sParam = new OpenCvSharp.Flann.SearchParams(50);
-            var flannMatcher = new FlannBasedMatcher(null, sParam);
+            //OpenCvSharp.Flann.SearchParams sParam = new OpenCvSharp.Flann.SearchParams(50);
+            var flannMatcher = new FlannBasedMatcher();//null, sParam);
 
             DMatch[][] flannMatches = flannMatcher.KnnMatch(descriptors1, descriptors2, 2);
 
@@ -100,7 +100,7 @@ namespace VI_Project_Lib
             Mat crop = new Mat();
 
             Cv2.WarpPerspective(src2, crop, h2, src1.Size());
-            Cv2.ImShow("original", src1);
+            //Cv2.ImShow("original", src1);
             new Window("Cropped", WindowMode.AutoSize, crop);
 
             crop.CopyTo(processImg);

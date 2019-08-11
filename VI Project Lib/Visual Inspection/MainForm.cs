@@ -22,69 +22,138 @@ namespace Visual_Inspection
         public ImProcess process { get; private set; }
         public Preset selectedPreset { get; set; }
         public int cnt { get; set; }
+        public ROI_Setting form { get; set; }
         public MainForm()
         {
             InitializeComponent();
 
             string filepath = "..\\..\\ImageSources\\sample0.png";
             process = new ImProcess(filepath);
+            form = new ROI_Setting(process.originalImg);
+            selectedPreset = form.presets.Find(x => x.PresetName == "New");
         }
 
         private void btnDoProcess_Click(object sender, EventArgs e)
         {
-            string filepath2 = "..\\..\\ImageSources\\sample7.jpg";
 
-            while (true)
-            {
-                process.MatchBySurf(filepath2);
-
-                foreach (var roi in selectedPreset.ROIs)
-                {
-                    if (roi.checkType == CheckType.BarCode)
-                        barcode.Text = roi.Check(process.processImg);
-                    else
-                        roi.Check(process.processImg);
-                }
-
-                pictureBoxIpl1.Image = process.GetBitmap(process.processImg);
-                pictureBoxIpl1.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                MessageBox.Show(cnt.ToString());
-
-                cnt++;
-                //Cv2.WaitKey(2000);
-            }
         }
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            ROI_Setting form = new ROI_Setting(process.originalImg);
-            if(form.ShowDialog(this) == DialogResult.OK)
+            if (form.ShowDialog(this) == DialogResult.OK)
             {
                 selectedPreset = form.presets.Find(x => x.PresetName == form.listbxPreset.SelectedItem.ToString());
             }
 
-            form.Dispose();
+            form.Close();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //TcpClient tc = new TcpClient("169.254.195.141", 50001);
+            Socket.RunWorkerAsync();
+        }
 
-            //FileStream file = new FileStream("..\\..\\ImageSources\\sample1.jpg", FileMode.Create);
-            //byte[] buffer = new byte[1024];
-            //int nbytes;
-            //NetworkStream stream = tc.GetStream();
+        private void Socket_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int cnt = 1;
+            string filename = "sample" + cnt.ToString() + ".jpg";
 
-            ////FileStream file = new FileStream("..\\..\\ImageSources\\imgtest.jpg", FileMode.Create);
+            TcpClient tc = new TcpClient();
+            NetworkStream stream;
+            while (true)
+            {
+                tc.Connect("169.254.195.141", 50001);
+                if (tc.Connected)
+                    break;
+            }
+            barcode.Text = "Connected";
+            FileStream file = new FileStream("..\\..\\ImageSources\\" + filename, FileMode.Create);
+            byte[] buffer = new byte[1024];
+            int nbytes;
+            stream = tc.GetStream();
 
-            //while ((nbytes = stream.Read(buffer, 0, buffer.Length)) > 0)
-            //{
-            //    file.Write(buffer, 0, nbytes);
-            //}
+            while (true)
+            {
+                stream.Read(buffer, 0, buffer.Length);
+                string received = Encoding.ASCII.GetString(buffer);
+                MessageBox.Show(received);
+                if (string.Compare(received, "sending") == 0)
+                    break;
+            }
+            //stream.Write(buffer, 0, sizeof(int));
+            nbytes = stream.Read(buffer, 0, sizeof(int));
+            int fileSize = BitConverter.ToInt32(buffer, 0);
 
-            //stream.Close();
-            //tc.Close();
+
+            stream.Write(buffer, 0, sizeof(int));
+            //FileStream file = new FileStream("..\\..\\ImageSources\\imgtest.jpg", FileMode.Create);
+            nbytes = 10;
+            int receivedSize = 0;
+            while (receivedSize <= fileSize)
+            {
+                nbytes = stream.Read(buffer, 0, buffer.Length);
+                file.Write(buffer, 0, nbytes);
+                receivedSize += nbytes;
+
+                //MessageBox.Show(receivedSize.ToString() + "/ " +fileSize.ToString());
+            }
+            //MessageBox.Show(receivedSize.ToString() + "/ " + fileSize.ToString());
+
+
+
+
+            stream.Close();
+            tc.Close();
+            file.Close();
+            barcode.Text = "Disconnected";
+            try
+            {
+                Socket.ReportProgress(100, filename);
+            }
+            catch (Exception e2)
+            {
+
+            }
+            Thread.Sleep(1000);
+
+            //if (MessageBox.Show("종료?", "??", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.OK)
+            //    break;
+
+        }
+
+        private void Socket_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            string filepath2 = "..\\..\\ImageSources\\" + e.UserState as string;
+
+            process.MatchBySurf(filepath2);
+
+            foreach (var roi in selectedPreset.ROIs)
+            {
+                if (roi.checkType == CheckType.BarCode)
+                    barcode.Text = roi.Check(process.processImg);
+                else
+                    roi.Check(process.processImg);
+            }
+
+            pictureBoxIpl1.Image = process.GetBitmap(process.processImg);
+            pictureBoxIpl1.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            //MessageBox.Show(cnt.ToString());
+
+            cnt++;
+            //Cv2.WaitKey(2000);
+
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            form.Dispose();
+            Socket.CancelAsync();
+        }
+
+        private void Socket_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Socket.RunWorkerAsync();
         }
     }
 }
