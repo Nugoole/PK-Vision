@@ -110,13 +110,14 @@ namespace VI_Project_Lib
 
         public System.Drawing.Bitmap CannyImage()
         {
-            Cv2.Canny(originalImg, processImg, 10, 100);
+            processImg = new Mat();
+            Cv2.Canny(originalImg, processImg, 130, 210);
             return BitmapConverter.ToBitmap(processImg);
         }
 
         public System.Drawing.Bitmap Morphology()
         {
-
+            
             Cv2.Canny(originalImg, processImg, 50, 230);
 
             Mat cross = new Mat(3, 3, MatType.CV_8U, new Scalar(0));
@@ -129,7 +130,7 @@ namespace VI_Project_Lib
             }
 
             Mat result = new Mat();
-            Cv2.MorphologyEx(processImg, result, MorphTypes.TopHat, cross);
+            Cv2.MorphologyEx(processImg, result, MorphTypes.HitMiss, cross);
 
             return BitmapConverter.ToBitmap(result);
         }
