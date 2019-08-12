@@ -1,0 +1,1 @@
+{"PresetName":"test","ROIs":[{"Name":"ROI 0","location":{"X":15,"Y":23},"checkType":1,"ROISize":{"Width":600,"Height":39}},{"Name":"ROI 1","location":{"X":15,"Y":61},"checkType":1,"ROISize":{"Width":600,"Height":36}},{"Name":"ROI 2","location":{"X":2,"Y":282},"checkType":3,"ROISize":{"Width":628,"Height":69}}]}

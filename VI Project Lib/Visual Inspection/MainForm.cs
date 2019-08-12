@@ -27,7 +27,7 @@ namespace Visual_Inspection
         {
             InitializeComponent();
 
-            string filepath = "..\\..\\ImageSources\\sample0.png";
+            string filepath = "..\\..\\ImageSources\\sample0.jpg";
             process = new ImProcess(filepath);
             form = new ROI_Setting(process.originalImg);
             selectedPreset = form.presets.Find(x => x.PresetName == "New");
@@ -66,7 +66,7 @@ namespace Visual_Inspection
                 if (tc.Connected)
                     break;
             }
-            barcode.Text = "Connected";
+            
             FileStream file = new FileStream("..\\..\\ImageSources\\" + filename, FileMode.Create);
             byte[] buffer = new byte[1024];
             int nbytes;
@@ -105,7 +105,7 @@ namespace Visual_Inspection
             stream.Close();
             tc.Close();
             file.Close();
-            barcode.Text = "Disconnected";
+            
             try
             {
                 Socket.ReportProgress(100, filename);
@@ -131,6 +131,12 @@ namespace Visual_Inspection
             {
                 if (roi.checkType == CheckType.BarCode)
                     barcode.Text = roi.Check(process.processImg);
+            }
+
+            foreach (var roi in selectedPreset.ROIs)
+            {
+                if (roi.checkType == CheckType.BarCode)
+                    continue;
                 else
                     roi.Check(process.processImg);
             }

@@ -10,6 +10,8 @@ namespace VI_Project_Lib
     {
         public string GetBarcodeCode(Mat img = null)
         {
+            //Cv2.Resize(img, img, new OpenCvSharp.Size(img.Size().Width * 2, img.Size().Height * 2));
+            Cv2.ImShow("Barcode", img);
             Bitmap bitmap = GetBitmap(img);
             BarcodeReader reader = new BarcodeReader();
 
