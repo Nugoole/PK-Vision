@@ -27,7 +27,7 @@ namespace VI_Project_Lib
             Cv2.CvtColor(src1, gray1, ColorConversionCodes.BGR2GRAY);
             Cv2.CvtColor(src2, gray2, ColorConversionCodes.BGR2GRAY);
 
-            var surf = SIFT.Create(400);
+            var surf = SIFT.Create(1000);
 
 
             // Detect the keypoints and generate their descriptors using SURF
