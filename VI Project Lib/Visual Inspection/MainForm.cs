@@ -138,7 +138,7 @@ namespace Visual_Inspection
                 if (roi.checkType == CheckType.BarCode)
                     continue;
                 else
-                    roi.Check(process.processImg);
+                    MessageBox.Show(roi.Check(process.processImg));
             }
 
             pictureBoxIpl1.Image = process.GetBitmap(process.processImg);

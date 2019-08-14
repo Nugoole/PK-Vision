@@ -41,10 +41,9 @@ namespace VI_Project_Lib
             Rect roiRect = new Rect(location, ROISize);
             ImProcess process = new ImProcess(original[roiRect]);
 
-
             if (checkType == CheckType.Soldering)
             {
-                process.CircleDetect();
+                return process.CircleDetect();
                 //original[roiRect] += process.processImg;
             }
             else if (checkType == CheckType.BarCode)
