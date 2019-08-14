@@ -22,8 +22,8 @@ namespace VI_Project_Lib
 
             Mat test;
             StringBuilder passorfail = new StringBuilder();
-            int cnt = 0;
-            foreach (var circle in circles.OrderBy(x => x.Center.X).ToList())
+            int cnt = -1;
+            foreach (var circle in circles.OrderBy(x => x.Center.X).Reverse().ToList())
             {
                 int rad = (int)circle.Radius;
                 test = processImg[new Rect((int)(circle.Center.X - rad), (int)(circle.Center.Y - rad), rad * 2, rad * 2)];
@@ -31,11 +31,11 @@ namespace VI_Project_Lib
                 Cv2.Circle(compare, new Point(compare.Cols / 2, compare.Rows / 2), (int)circle.Radius, new Scalar(255,0,255), -1);
 
                 Cv2.BitwiseXor(test, compare, compare);
-                Cv2.ImShow($"{cnt++}", compare);
-                if (compare.CountNonZero() > (compare.Cols * compare.Rows) * 0.3)
-                    passorfail.Append("F");
-                else
-                    passorfail.Append("P");
+                Cv2.ImShow($"{cnt+=2}", compare);
+                if (compare.CountNonZero() > (compare.Cols * compare.Rows) * 0.4)
+                    passorfail.Append($"{cnt}, ");
+                
+                    
 
                 //Cv2.ImShow($"{Math.Min(processImg.Cols, processImg.Rows)}", processImg);
                 //Cv2.WaitKey();

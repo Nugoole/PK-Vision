@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VI Project Lib", "VI Projec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visual Inspection", "Visual Inspection\Visual Inspection.csproj", "{781FBDF6-E73B-4069-BAF9-A346DB524B5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VI DB", "VI DB\VI DB.csproj", "{9264F034-1A80-45F9-825D-B0A3973870B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{781FBDF6-E73B-4069-BAF9-A346DB524B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{781FBDF6-E73B-4069-BAF9-A346DB524B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{781FBDF6-E73B-4069-BAF9-A346DB524B5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9264F034-1A80-45F9-825D-B0A3973870B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9264F034-1A80-45F9-825D-B0A3973870B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9264F034-1A80-45F9-825D-B0A3973870B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9264F034-1A80-45F9-825D-B0A3973870B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
