@@ -12,6 +12,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VI_DB;
+using VI_DB.Data;
+using VI_DB.DB;
 using VI_Project_Lib;
 
 namespace Visual_Inspection
@@ -62,7 +65,7 @@ namespace Visual_Inspection
             NetworkStream stream;
             while (true)
             {
-                tc.Connect("169.254.195.141", 50001);
+                tc.Connect("169.254.195.141", 50003);
                 if (tc.Connected)
                     break;
             }
@@ -131,6 +134,10 @@ namespace Visual_Inspection
             {
                 if (roi.checkType == CheckType.BarCode)
                     barcode.Text = roi.Check(process.processImg);
+                //DB 바코드에 올리기
+                //var a = new Barcode();
+                //a.BarcodeCode = int.Parse(barcode.Text);
+                //DB.BarCode.Insert(a);
             }
 
             foreach (var roi in selectedPreset.ROIs)

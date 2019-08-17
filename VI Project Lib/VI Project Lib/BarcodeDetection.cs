@@ -2,7 +2,9 @@
 using OpenCvSharp;
 using System.Drawing;
 using System.Text;
+using VI_DB.DB;
 using ZXing;
+
 
 namespace VI_Project_Lib
 {
@@ -22,6 +24,7 @@ namespace VI_Project_Lib
             else
                 return results.Text;
 
+            
             //for (int i = 0; i < results.Length; i++)
             //    Cv2.Rectangle(imgData, new Rect((int)results[0].ResultPoints[i].X, (int)results[0].ResultPoints[i].Y, 50, 50), new Scalar(0, 255, 0));
             //StringBuilder builder = new StringBuilder();
@@ -34,6 +37,7 @@ namespace VI_Project_Lib
             //    return builder.ToString();
             //else
             //    return null;
+            
         }
     }
 }

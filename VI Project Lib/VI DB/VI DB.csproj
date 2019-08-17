@@ -53,6 +53,10 @@
     <Compile Include="Barcode.cs">
       <DependentUpon>PCBVI.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\BarCodeData.cs" />
+    <Compile Include="Data\DB.cs" />
+    <Compile Include="Data\EntityData.cs" />
+    <Compile Include="DbContextFactory.cs" />
     <Compile Include="DefectiveProduct.cs">
       <DependentUpon>PCBVI.tt</DependentUpon>
     </Compile>
@@ -62,6 +66,7 @@
     <Compile Include="Employee.cs">
       <DependentUpon>PCBVI.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\BarCode.cs" />
     <Compile Include="ErrorCode.cs">
       <DependentUpon>PCBVI.tt</DependentUpon>
     </Compile>

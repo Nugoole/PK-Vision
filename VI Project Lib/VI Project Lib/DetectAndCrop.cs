@@ -29,7 +29,6 @@ namespace VI_Project_Lib
 
             var surf = SIFT.Create(1000);
 
-
             // Detect the keypoints and generate their descriptors using SURF
             KeyPoint[] keypoints1, keypoints2;
             var descriptors1 = new Mat();
@@ -65,8 +64,6 @@ namespace VI_Project_Lib
                     goodMatches.Add(flannMatches[i][0]);
                 }
             }
-
-
 
             // Draw matches
             var flannView = new Mat();

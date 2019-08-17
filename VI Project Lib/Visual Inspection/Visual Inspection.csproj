@@ -122,6 +122,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VI DB\VI DB.csproj">
+      <Project>{9264F034-1A80-45F9-825D-B0A3973870B3}</Project>
+      <Name>VI DB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VI Project Lib\VI Project Lib.csproj">
       <Project>{b4d9019a-1df8-438d-afa4-a246f92a3eef}</Project>
       <Name>VI Project Lib</Name>

@@ -38,7 +38,6 @@ namespace VI_Project_Lib
                     
 
                 //Cv2.ImShow($"{Math.Min(processImg.Cols, processImg.Rows)}", processImg);
-                //Cv2.WaitKey();
                 test.Dispose();
                 compare.Dispose();
             }

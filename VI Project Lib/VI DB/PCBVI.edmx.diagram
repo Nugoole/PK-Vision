@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8c1767da954e4e12b4c61549a9048281" Name="Diagram1">
+      <Diagram DiagramId="8c1767da954e4e12b4c61549a9048281" Name="Diagram1" ZoomLevel="124">
         <EntityTypeShape EntityType="PCBVIModel.Barcode" Width="1.5" PointX="6" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PCBVIModel.DefectiveProduct" Width="1.5" PointX="7.5" PointY="16.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PCBVIModel.Department" Width="1.5" PointX="3" PointY="30.875" IsExpanded="true" />
