@@ -35,7 +35,8 @@
             this.solderingfails = new System.Windows.Forms.Label();
             this.pictureBoxIpl1 = new OpenCvSharp.UserInterface.PictureBoxIpl();
             this.button2 = new System.Windows.Forms.Button();
-            this.Socket = new System.ComponentModel.BackgroundWorker();
+            this.ImageSocket = new System.ComponentModel.BackgroundWorker();
+            this.CommandSocket = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIpl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -105,13 +106,21 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
-            // Socket
+            // ImageSocket
             // 
-            this.Socket.WorkerReportsProgress = true;
-            this.Socket.WorkerSupportsCancellation = true;
-            this.Socket.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Socket_DoWork);
-            this.Socket.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.Socket_ProgressChanged);
-            this.Socket.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Socket_RunWorkerCompleted);
+            this.ImageSocket.WorkerReportsProgress = true;
+            this.ImageSocket.WorkerSupportsCancellation = true;
+            this.ImageSocket.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Socket_DoWork);
+            this.ImageSocket.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.Socket_ProgressChanged);
+            this.ImageSocket.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Socket_RunWorkerCompleted);
+            // 
+            // CommandSocket
+            // 
+            this.CommandSocket.WorkerReportsProgress = true;
+            this.CommandSocket.WorkerSupportsCancellation = true;
+            this.CommandSocket.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CommandSocket_DoWork);
+            this.CommandSocket.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.CommandSocket_ProgressChanged);
+            this.CommandSocket.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CommandSocket_RunWorkerCompleted);
             // 
             // MainForm
             // 
@@ -143,7 +152,8 @@
         private System.Windows.Forms.Label solderingfails;
         private OpenCvSharp.UserInterface.PictureBoxIpl pictureBoxIpl1;
         private System.Windows.Forms.Button button2;
-        private System.ComponentModel.BackgroundWorker Socket;
+        private System.ComponentModel.BackgroundWorker ImageSocket;
+        private System.ComponentModel.BackgroundWorker CommandSocket;
     }
 }
 

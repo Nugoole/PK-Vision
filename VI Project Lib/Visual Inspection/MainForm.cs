@@ -26,6 +26,8 @@ namespace Visual_Inspection
         public Preset selectedPreset { get; set; }
         public int cnt { get; set; }
         public ROI_Setting form { get; set; }
+        public Barcode detectedBarcode { get; set; }
+        public StringBuilder errorPinsBuilder { get; set; }
         public MainForm()
         {
             InitializeComponent();
@@ -53,7 +55,8 @@ namespace Visual_Inspection
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Socket.RunWorkerAsync();
+            //ImageSocket.RunWorkerAsync();
+            CommandSocket.RunWorkerAsync();
         }
 
         private void Socket_DoWork(object sender, DoWorkEventArgs e)
@@ -83,13 +86,13 @@ namespace Visual_Inspection
                 if (string.Compare(received, "sending") == 0)
                     break;
             }
-            //stream.Write(buffer, 0, sizeof(int));
+            
             nbytes = stream.Read(buffer, 0, sizeof(int));
             int fileSize = BitConverter.ToInt32(buffer, 0);
 
 
             stream.Write(buffer, 0, sizeof(int));
-            //FileStream file = new FileStream("..\\..\\ImageSources\\imgtest.jpg", FileMode.Create);
+            
             nbytes = 10;
             int receivedSize = 0;
             while (receivedSize <= fileSize)
@@ -97,21 +100,17 @@ namespace Visual_Inspection
                 nbytes = stream.Read(buffer, 0, buffer.Length);
                 file.Write(buffer, 0, nbytes);
                 receivedSize += nbytes;
-
-                //MessageBox.Show(receivedSize.ToString() + "/ " +fileSize.ToString());
             }
-            //MessageBox.Show(receivedSize.ToString() + "/ " + fileSize.ToString());
-
-
-
-
+            
             stream.Close();
             tc.Close();
             file.Close();
+
+            tc.Dispose();
             
             try
             {
-                Socket.ReportProgress(100, filename);
+                ImageSocket.ReportProgress(100, filename);
             }
             catch (Exception e2)
             {
@@ -135,9 +134,14 @@ namespace Visual_Inspection
                 if (roi.checkType == CheckType.BarCode)
                     barcode.Text = roi.Check(process.processImg);
                 //DB 바코드에 올리기
-                //var a = new Barcode();
-                //a.BarcodeCode = int.Parse(barcode.Text);
-                //DB.BarCode.Insert(a);
+                detectedBarcode = new Barcode();
+                detectedBarcode.State = "Pass";
+                if (barcode.Text == "nothing")
+                {
+                    detectedBarcode.State = "Fail";
+                    continue;
+                }
+                detectedBarcode.BarcodeCode = int.Parse(barcode.Text);
             }
 
             foreach (var roi in selectedPreset.ROIs)
@@ -145,7 +149,13 @@ namespace Visual_Inspection
                 if (roi.checkType == CheckType.BarCode)
                     continue;
                 else
-                    MessageBox.Show(roi.Check(process.processImg));
+                    errorPinsBuilder.Append(roi.Check(process.processImg));
+            }
+
+            //DB 올리기전 솔더링 체크 Pass or Fail
+            if(!string.IsNullOrEmpty(errorPinsBuilder.ToString()))
+            {
+                detectedBarcode.State = "Fail";
             }
 
             pictureBoxIpl1.Image = process.GetBitmap(process.processImg);
@@ -161,12 +171,42 @@ namespace Visual_Inspection
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             form.Dispose();
-            Socket.CancelAsync();
+            ImageSocket.CancelAsync();
         }
 
         private void Socket_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Socket.RunWorkerAsync();
+            ImageSocket.RunWorkerAsync();
+            CommandSocket.ReportProgress(100, detectedBarcode.State);
+        }
+
+        private void CommandSocket_DoWork(object sender, DoWorkEventArgs e)
+        {
+            TcpClient commandClient = new TcpClient();
+            NetworkStream commandStream;
+
+            while(!commandClient.Connected)
+            {
+                commandClient.Connect("169.254.195.141", 50004);
+                if (commandClient.Connected)
+                    break;
+            }
+            
+            int command = 1;
+
+            commandStream = commandClient.GetStream();
+            byte[] buffer = BitConverter.GetBytes(command);
+            commandStream.Write(buffer, 0, buffer.Length);
+        }
+
+        private void CommandSocket_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+        private void CommandSocket_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
         }
     }
 }

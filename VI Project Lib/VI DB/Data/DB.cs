@@ -10,6 +10,6 @@ namespace VI_DB.DB
     public class DB
     {
         public static BarCodeData BarCode { get; } = new BarCodeData();
-
+        
     }
 }
