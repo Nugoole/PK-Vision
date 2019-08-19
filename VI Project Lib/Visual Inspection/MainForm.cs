@@ -28,14 +28,15 @@ namespace Visual_Inspection
         public ROI_Setting form { get; set; }
         public Barcode detectedBarcode { get; set; }
         public StringBuilder errorPinsBuilder { get; set; }
+        public NetworkStream commandStream { get; set; }
+        public TcpClient commandClient { get; set; }
         public MainForm()
         {
             InitializeComponent();
 
             string filepath = "..\\..\\ImageSources\\sample0.jpg";
             process = new ImProcess(filepath);
-            form = new ROI_Setting(process.originalImg);
-            selectedPreset = form.presets.Find(x => x.PresetName == "New");
+            
         }
 
         private void btnDoProcess_Click(object sender, EventArgs e)
@@ -45,18 +46,19 @@ namespace Visual_Inspection
 
         private void Button2_Click(object sender, EventArgs e)
         {
+            form = new ROI_Setting(process.originalImg);
             if (form.ShowDialog(this) == DialogResult.OK)
             {
                 selectedPreset = form.presets.Find(x => x.PresetName == form.listbxPreset.SelectedItem.ToString());
             }
 
-            form.Close();
+            form.Dispose();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //ImageSocket.RunWorkerAsync();
-            CommandSocket.RunWorkerAsync();
+            ImageSocket.RunWorkerAsync();
+            //CommandSocket.RunWorkerAsync();
         }
 
         private void Socket_DoWork(object sender, DoWorkEventArgs e)
@@ -68,7 +70,15 @@ namespace Visual_Inspection
             NetworkStream stream;
             while (true)
             {
-                tc.Connect("169.254.195.141", 50003);
+                try
+                {
+                    tc.Connect("192.168.0.5", 50003);
+                }
+                catch(Exception exp)
+                {
+
+                }
+                
                 if (tc.Connected)
                     break;
             }
@@ -132,20 +142,23 @@ namespace Visual_Inspection
             foreach (var roi in selectedPreset.ROIs)
             {
                 if (roi.checkType == CheckType.BarCode)
-                    barcode.Text = roi.Check(process.processImg);
-                //DB 바코드에 올리기
-                detectedBarcode = new Barcode();
-                detectedBarcode.State = "Pass";
-                if (barcode.Text == "nothing")
                 {
-                    detectedBarcode.State = "Fail";
-                    continue;
+                    barcode.Text = roi.Check(process.processImg);
+                    //DB 바코드에 올리기
+                    detectedBarcode = new Barcode();
+                    detectedBarcode.State = "Pass";
+                    if (barcode.Text == "nothing")
+                    {
+                        detectedBarcode.State = "Fail";
+                        continue;
+                    }
+                    detectedBarcode.BarcodeCode = int.Parse(barcode.Text);
                 }
-                detectedBarcode.BarcodeCode = int.Parse(barcode.Text);
             }
 
             foreach (var roi in selectedPreset.ROIs)
             {
+                errorPinsBuilder = new StringBuilder();
                 if (roi.checkType == CheckType.BarCode)
                     continue;
                 else
@@ -163,50 +176,65 @@ namespace Visual_Inspection
 
             //MessageBox.Show(cnt.ToString());
 
-            cnt++;
-            //Cv2.WaitKey(2000);
+          cnt++;            //Cv2.WaitKey(2000);
 
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            form.Dispose();
+            if(form != null)
+                form.Dispose();
             ImageSocket.CancelAsync();
+            CommandSocket.CancelAsync();
         }
 
         private void Socket_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            ImageSocket.RunWorkerAsync();
-            CommandSocket.ReportProgress(100, detectedBarcode.State);
+            CommandSocket.RunWorkerAsync();  
         }
 
         private void CommandSocket_DoWork(object sender, DoWorkEventArgs e)
         {
-            TcpClient commandClient = new TcpClient();
-            NetworkStream commandStream;
+            commandClient = new TcpClient();         
 
-            while(!commandClient.Connected)
+            while(true)
             {
-                commandClient.Connect("169.254.195.141", 50004);
+                try
+                {
+                    commandClient.Connect("192.168.0.5", 50004);
+                }
+                catch (Exception exp)
+                {
+ 
+                }
+                
                 if (commandClient.Connected)
                     break;
             }
-            
-            int command = 1;
-
             commandStream = commandClient.GetStream();
-            byte[] buffer = BitConverter.GetBytes(command);
-            commandStream.Write(buffer, 0, buffer.Length);
+            CommandSocket.ReportProgress(100, detectedBarcode.State);
         }
 
         private void CommandSocket_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
+            
+            ImageSocket.RunWorkerAsync();
         }
 
         private void CommandSocket_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            int command = 1;
+            MessageBox.Show(e.UserState as string);
+            if ((e.UserState as string) == "Pass")
+                command = 1;
+            else if ((e.UserState as string) == "Fail")
+                command = -1;
 
+
+            byte[] buffer = BitConverter.GetBytes(command);
+            commandStream.Write(buffer, 0, buffer.Length);
+            commandStream.Close();
+            commandClient.Close();
         }
     }
 }
