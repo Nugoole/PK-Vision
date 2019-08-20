@@ -27,7 +27,7 @@ namespace Visual_Inspection
         public int cnt { get; set; }
         public ROI_Setting form { get; set; }
         public Barcode detectedBarcode { get; set; }
-        public StringBuilder errorPinsBuilder { get; set; }
+        public StringBuilder errorPinsBuilder { get; set; } = new StringBuilder();
         public NetworkStream commandStream { get; set; }
         public TcpClient commandClient { get; set; }
         public MainForm()
@@ -92,7 +92,7 @@ namespace Visual_Inspection
             {
                 stream.Read(buffer, 0, buffer.Length);
                 string received = Encoding.ASCII.GetString(buffer);
-                MessageBox.Show(received);
+                //MessageBox.Show(received);
                 if (string.Compare(received, "sending") == 0)
                     break;
             }
@@ -156,9 +156,11 @@ namespace Visual_Inspection
                 }
             }
 
+            errorPinsBuilder.Clear();
+
             foreach (var roi in selectedPreset.ROIs)
             {
-                errorPinsBuilder = new StringBuilder();
+                
                 if (roi.checkType == CheckType.BarCode)
                     continue;
                 else
