@@ -36,6 +36,7 @@ namespace Visual_Inspection
 
             string filepath = "..\\..\\ImageSources\\sample0.jpg";
             process = new ImProcess(filepath);
+            //selectedPreset = form.presets.Find(x => x.PresetName == "test");
             
         }
 
@@ -72,7 +73,7 @@ namespace Visual_Inspection
             {
                 try
                 {
-                    tc.Connect("192.168.0.5", 50003);
+                    tc.Connect("192.168.0.2", 50005);
                 }
                 catch(Exception exp)
                 {
@@ -203,7 +204,7 @@ namespace Visual_Inspection
             {
                 try
                 {
-                    commandClient.Connect("192.168.0.5", 50004);
+                    commandClient.Connect("192.168.0.2", 50006);
                 }
                 catch (Exception exp)
                 {
@@ -226,7 +227,7 @@ namespace Visual_Inspection
         private void CommandSocket_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             int command = 1;
-            MessageBox.Show(e.UserState as string);
+            Thread.Sleep(300);
             if ((e.UserState as string) == "Pass")
                 command = 1;
             else if ((e.UserState as string) == "Fail")
