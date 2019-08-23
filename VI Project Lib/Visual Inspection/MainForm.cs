@@ -69,19 +69,14 @@ namespace Visual_Inspection
 
             TcpClient tc = new TcpClient();
             NetworkStream stream;
-            while (true)
+            while (!tc.Connected)
             {
                 try
                 {
-                    tc.Connect("192.168.0.2", 50005);
+                    tc.Connect("192.168.0.2", 50003);
                 }
-                catch(Exception exp)
-                {
-
-                }
-                
-                if (tc.Connected)
-                    break;
+                catch (Exception)
+                { }
             }
             
             FileStream file = new FileStream("..\\..\\ImageSources\\" + filename, FileMode.Create);
@@ -200,19 +195,15 @@ namespace Visual_Inspection
         {
             commandClient = new TcpClient();         
 
-            while(true)
+            while(!commandClient.Connected)
             {
                 try
                 {
-                    commandClient.Connect("192.168.0.2", 50006);
+                    commandClient.Connect("192.168.0.2", 50004);
                 }
                 catch (Exception exp)
                 {
- 
-                }
-                
-                if (commandClient.Connected)
-                    break;
+                }                                
             }
             commandStream = commandClient.GetStream();
             CommandSocket.ReportProgress(100, detectedBarcode.State);
@@ -227,7 +218,7 @@ namespace Visual_Inspection
         private void CommandSocket_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             int command = 1;
-            Thread.Sleep(300);
+            Thread.Sleep(30);
             if ((e.UserState as string) == "Pass")
                 command = 1;
             else if ((e.UserState as string) == "Fail")
