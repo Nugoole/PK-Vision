@@ -18,26 +18,26 @@ namespace VI_DB
         public Barcode()
         {
             this.DefectiveProducts = new HashSet<DefectiveProduct>();
+            this.LotBarCodes = new HashSet<LotBarCode>();
             this.MaterialHistories = new HashSet<MaterialHistory>();
             this.MaterialsInRes = new HashSet<MaterialsInRe>();
-            this.Items = new HashSet<Item>();
         }
     
         public int BarcodeId { get; set; }
         public int BarcodeCode { get; set; }
         public string State { get; set; }
         public Nullable<int> ErrorCodeId { get; set; }
-        public int LotId { get; set; }
+        public int ItemId { get; set; }
     
         public virtual ErrorCode ErrorCode { get; set; }
-        public virtual Lot Lot { get; set; }
+        public virtual Item Item { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DefectiveProduct> DefectiveProducts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LotBarCode> LotBarCodes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialHistory> MaterialHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialsInRe> MaterialsInRes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Item> Items { get; set; }
     }
 }

@@ -12,15 +12,12 @@ namespace VI_DB
     using System;
     using System.Collections.Generic;
     
-    public partial class FacilitiesPower
+    public partial class sysdiagram
     {
-        public int FacilitiesPowerId { get; set; }
-        public int ProcessId { get; set; }
-        public int FacilitiesId { get; set; }
-        public System.TimeSpan WorkTime { get; set; }
-        public System.DateTime WorkDate { get; set; }
-    
-        public virtual Facility Facility { get; set; }
-        public virtual Process Process { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

@@ -19,7 +19,9 @@ namespace VI_DB
         {
             this.FacilitiesHistories = new HashSet<FacilitiesHistory>();
             this.FacilitiesPowers = new HashSet<FacilitiesPower>();
+            this.ProductionHistories = new HashSet<ProductionHistory>();
             this.WorkLogs = new HashSet<WorkLog>();
+            this.WorkOrders = new HashSet<WorkOrder>();
         }
     
         public int FacilitiesId { get; set; }
@@ -40,6 +42,10 @@ namespace VI_DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FacilitiesPower> FacilitiesPowers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductionHistory> ProductionHistories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkLog> WorkLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkOrder> WorkOrders { get; set; }
     }
 }

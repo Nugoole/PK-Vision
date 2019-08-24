@@ -14,12 +14,6 @@ namespace VI_DB
     
     public partial class ProductionHistory
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ProductionHistory()
-        {
-            this.FacilitiesPowers = new HashSet<FacilitiesPower>();
-        }
-    
         public int ProductionHistoryId { get; set; }
         public System.DateTime ProductionDate { get; set; }
         public int ProcessId { get; set; }
@@ -28,9 +22,9 @@ namespace VI_DB
         public int ErrorQuantity { get; set; }
         public System.DateTime StartTime { get; set; }
         public System.DateTime EndTime { get; set; }
+        public int FacilitiesId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FacilitiesPower> FacilitiesPowers { get; set; }
+        public virtual Facility Facility { get; set; }
         public virtual Item Item { get; set; }
         public virtual Process Process { get; set; }
     }

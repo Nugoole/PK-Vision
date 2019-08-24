@@ -12,18 +12,18 @@ namespace VI_DB
     using System;
     using System.Collections.Generic;
     
-    public partial class MaterialsManage
+    public partial class MaterialState
     {
-        public int MaterialsManageId { get; set; }
-        public int LotId { get; set; }
-        public int ProcessId { get; set; }
-        public int MaterialStateId { get; set; }
-        public int PassQuantity { get; set; }
-        public int ErrorQuantity { get; set; }
-        public int TotalQuantity { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MaterialState()
+        {
+            this.MaterialsManages = new HashSet<MaterialsManage>();
+        }
     
-        public virtual Lot Lot { get; set; }
-        public virtual MaterialState MaterialState { get; set; }
-        public virtual Process Process { get; set; }
+        public int MaterialStateId { get; set; }
+        public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaterialsManage> MaterialsManages { get; set; }
     }
 }

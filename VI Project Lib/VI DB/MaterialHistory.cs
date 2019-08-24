@@ -17,6 +17,7 @@ namespace VI_DB
         public int MaterialHistoryId { get; set; }
         public int LotId { get; set; }
         public int BarcodeId { get; set; }
+        public string MaterialState { get; set; }
         public System.DateTime EnterDate { get; set; }
         public int EnterQuantity { get; set; }
         public int WorkPlaceId { get; set; }

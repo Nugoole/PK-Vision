@@ -163,8 +163,10 @@ namespace Visual_Inspection
                     errorPinsBuilder.Append(roi.Check(process.processImg));
             }
 
+            faillabel.Text = errorPinsBuilder.ToString();
+
             //DB 올리기전 솔더링 체크 Pass or Fail
-            if(!string.IsNullOrEmpty(errorPinsBuilder.ToString()))
+            if (!string.IsNullOrEmpty(errorPinsBuilder.ToString()))
             {
                 detectedBarcode.State = "Fail";
             }
@@ -175,7 +177,9 @@ namespace Visual_Inspection
             //MessageBox.Show(cnt.ToString());
 
           cnt++;            //Cv2.WaitKey(2000);
-
+            detectedBarcode.ErrorCodeId = 1;
+            detectedBarcode.ItemId = 1;
+            DB.BarCode.Insert(detectedBarcode);
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)

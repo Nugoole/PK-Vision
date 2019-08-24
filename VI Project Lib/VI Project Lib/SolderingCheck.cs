@@ -9,6 +9,7 @@ namespace VI_Project_Lib
 {
     public partial class ImProcess
     {
+        int pcbCnt = 0;
         public string CircleDetect()
         {
 
@@ -33,34 +34,26 @@ namespace VI_Project_Lib
             foreach (var circle in circles.OrderBy(x => x.Center.X).Reverse().ToList())
             {
                 int rad = (int)circle.Radius;
-                try
-                {
-                    test = processImg[new Rect((int)(circle.Center.X - rad), (int)(circle.Center.Y - rad), rad * 2, rad * 2)];
-                }
-                catch (Exception)
-                {
-                    Cv2.Circle(processImg, (Point)circle.Center, rad, new Scalar(255), 2);
-                    Cv2.ImShow($"{rad}", processImg);
-                    test = null;
-                }
-
                 
+                test = processImg[new Rect((int)(circle.Center.X - rad), (int)(circle.Center.Y - rad), rad * 2, rad * 2)];
+                
+                                
 
                 Mat compare = new Mat(test.Size(),test.Type());
-                Cv2.Circle(compare, new Point(compare.Cols / 2, compare.Rows / 2), (int)circle.Radius, new Scalar(255,255,255), -1);
+                Cv2.Circle(compare, new Point(compare.Cols / 2, compare.Rows / 2), (int)circle.Radius, new Scalar(255), -1);
 
                 Cv2.BitwiseAnd(test, compare, compare);
                 
                 //Cv2.ImShow($"{cnt+=2}", compare);
                 cnt += 2;
                 
-                if (compare.CountNonZero() < (compare.Cols * compare.Rows) * 0.25)
+                if (compare.CountNonZero() < (compare.Cols * compare.Rows) * 0.45)
                 {
                     Cv2.ImShow($"{cnt}", compare);
                     fails.Add(circle);
                     passorfail.Append($"{cnt}, ");
                 }
-                //Cv2.ImShow($"{cnt}", compare);
+               
                 
 
 
@@ -73,8 +66,8 @@ namespace VI_Project_Lib
             Cv2.CvtColor(processImg, processImg, ColorConversionCodes.GRAY2BGR);
             foreach (var circle in fails)
             {
-                Cv2.Circle(processImg, (Point)circle.Center, (int)circle.Radius, new Scalar(255, 0, 0), 2);
-                Cv2.ImShow("Fails", processImg);
+                Cv2.Circle(processImg, (Point)circle.Center, (int)circle.Radius, new Scalar(0, 0, 255), 2);
+                Cv2.ImShow("Fails" + pcbCnt++, processImg);
             }
             //foreach (var circle in circles2)
             //{

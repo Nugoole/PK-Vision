@@ -19,6 +19,7 @@ namespace VI_DB
         {
             this.FirstInspections = new HashSet<FirstInspection>();
             this.LastInspections = new HashSet<LastInspection>();
+            this.Lots = new HashSet<Lot>();
             this.MaterialHistories = new HashSet<MaterialHistory>();
             this.MaterialsInRes = new HashSet<MaterialsInRe>();
             this.WorkOrders = new HashSet<WorkOrder>();
@@ -31,6 +32,8 @@ namespace VI_DB
         public virtual ICollection<FirstInspection> FirstInspections { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LastInspection> LastInspections { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Lot> Lots { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialHistory> MaterialHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

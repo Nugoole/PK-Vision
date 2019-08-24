@@ -14,6 +14,12 @@ namespace VI_DB
     
     public partial class WorkOrder
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public WorkOrder()
+        {
+            this.WorkLogs = new HashSet<WorkLog>();
+        }
+    
         public int WorkOrderId { get; set; }
         public int ItemId { get; set; }
         public System.DateTime OrderDate { get; set; }
@@ -22,10 +28,15 @@ namespace VI_DB
         public int ProcessId { get; set; }
         public int WorkPlaceId { get; set; }
         public string Note { get; set; }
+        public string WorkerName { get; set; }
+        public int FacilitiesId { get; set; }
     
+        public virtual Facility Facility { get; set; }
         public virtual Item Item { get; set; }
         public virtual Process Process { get; set; }
         public virtual RotationGroup RotationGroup { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkLog> WorkLogs { get; set; }
         public virtual WorkPlace WorkPlace { get; set; }
     }
 }

@@ -43,14 +43,17 @@ namespace VI_DB
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<LastInspection> LastInspections { get; set; }
         public virtual DbSet<Lot> Lots { get; set; }
+        public virtual DbSet<LotBarCode> LotBarCodes { get; set; }
         public virtual DbSet<MaterialHistory> MaterialHistories { get; set; }
         public virtual DbSet<MaterialsInRe> MaterialsInRes { get; set; }
         public virtual DbSet<MaterialsManage> MaterialsManages { get; set; }
+        public virtual DbSet<MaterialState> MaterialStates { get; set; }
         public virtual DbSet<Process> Processes { get; set; }
         public virtual DbSet<ProcessDefect> ProcessDefects { get; set; }
         public virtual DbSet<ProductionHistory> ProductionHistories { get; set; }
         public virtual DbSet<RotationGroup> RotationGroups { get; set; }
         public virtual DbSet<SecondItemDivision> SecondItemDivisions { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TotalMonitoring> TotalMonitorings { get; set; }
         public virtual DbSet<WorkLog> WorkLogs { get; set; }
         public virtual DbSet<WorkOrder> WorkOrders { get; set; }

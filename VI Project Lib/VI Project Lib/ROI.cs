@@ -44,7 +44,7 @@ namespace VI_Project_Lib
             if (checkType == CheckType.Soldering)
             {
                 return process.CircleDetect();
-                original[roiRect] += process.processImg;
+                //original[roiRect] += process.processImg;
             }
             else if (checkType == CheckType.BarCode)
             {

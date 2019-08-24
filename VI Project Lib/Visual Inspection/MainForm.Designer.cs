@@ -34,6 +34,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.ImageSocket = new System.ComponentModel.BackgroundWorker();
             this.CommandSocket = new System.ComponentModel.BackgroundWorker();
+            this.faillabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIpl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -92,11 +93,20 @@
             this.CommandSocket.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.CommandSocket_ProgressChanged);
             this.CommandSocket.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CommandSocket_RunWorkerCompleted);
             // 
+            // faillabel
+            // 
+            this.faillabel.AutoSize = true;
+            this.faillabel.Location = new System.Drawing.Point(620, 345);
+            this.faillabel.Name = "faillabel";
+            this.faillabel.Size = new System.Drawing.Size(0, 15);
+            this.faillabel.TabIndex = 8;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(914, 562);
+            this.Controls.Add(this.faillabel);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.pictureBoxIpl1);
             this.Controls.Add(this.barcode);
@@ -118,6 +128,7 @@
         private System.Windows.Forms.Button button2;
         private System.ComponentModel.BackgroundWorker ImageSocket;
         private System.ComponentModel.BackgroundWorker CommandSocket;
+        private System.Windows.Forms.Label faillabel;
     }
 }
 

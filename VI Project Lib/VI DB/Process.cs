@@ -25,6 +25,7 @@ namespace VI_DB
             this.ProcessDefects = new HashSet<ProcessDefect>();
             this.ProductionHistories = new HashSet<ProductionHistory>();
             this.TotalMonitorings = new HashSet<TotalMonitoring>();
+            this.WorkLogs = new HashSet<WorkLog>();
             this.WorkOrders = new HashSet<WorkOrder>();
         }
     
@@ -49,6 +50,8 @@ namespace VI_DB
         public virtual ICollection<ProductionHistory> ProductionHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TotalMonitoring> TotalMonitorings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkLog> WorkLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkOrder> WorkOrders { get; set; }
     }

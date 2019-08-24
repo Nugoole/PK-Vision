@@ -23,7 +23,6 @@ namespace VI_DB
         public int WorkLogId { get; set; }
         public int RotationGroupId { get; set; }
         public System.DateTime WorkDate { get; set; }
-        public int EmployeeId { get; set; }
         public System.DateTime SartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
         public Nullable<int> ProductionQuantity { get; set; }
@@ -31,11 +30,16 @@ namespace VI_DB
         public int TargetQuantity { get; set; }
         public int ProcessId { get; set; }
         public int FacilitiesId { get; set; }
+        public int WorkOrderId { get; set; }
+        public int ItemId { get; set; }
+        public string WorkerName { get; set; }
     
-        public virtual Employee Employee { get; set; }
         public virtual Facility Facility { get; set; }
+        public virtual Item Item { get; set; }
+        public virtual Process Process { get; set; }
         public virtual RotationGroup RotationGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TotalMonitoring> TotalMonitorings { get; set; }
+        public virtual WorkOrder WorkOrder { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\301-13\source\repos\PK-Vision\VI Project Lib\VI DB\PCBVI.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Taehee\source\repos\Nugoole\PK-Vision\VI Project Lib\VI DB\PCBVI.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

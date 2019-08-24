@@ -17,26 +17,27 @@ namespace VI_DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Item()
         {
+            this.Barcodes = new HashSet<Barcode>();
             this.FirstInspections = new HashSet<FirstInspection>();
             this.ProductionHistories = new HashSet<ProductionHistory>();
             this.LastInspections = new HashSet<LastInspection>();
-            this.Lots = new HashSet<Lot>();
             this.ProcessDefects = new HashSet<ProcessDefect>();
             this.TotalMonitorings = new HashSet<TotalMonitoring>();
+            this.WorkLogs = new HashSet<WorkLog>();
             this.WorkOrders = new HashSet<WorkOrder>();
         }
     
         public int ItemId { get; set; }
         public string Code { get; set; }
-        public int BaecodeId { get; set; }
         public string Name { get; set; }
         public int FirstItemDivisionId { get; set; }
         public int SecondItemDivisionId { get; set; }
         public int WorkPlaceId { get; set; }
-        public int Quantity { get; set; }
+        public Nullable<int> Quantity { get; set; }
         public string Note { get; set; }
     
-        public virtual Barcode Barcode { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Barcode> Barcodes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FirstInspection> FirstInspections { get; set; }
         public virtual FirstItemDivision FirstItemDivision { get; set; }
@@ -46,11 +47,11 @@ namespace VI_DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LastInspection> LastInspections { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lot> Lots { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProcessDefect> ProcessDefects { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TotalMonitoring> TotalMonitorings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkLog> WorkLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkOrder> WorkOrders { get; set; }
     }
