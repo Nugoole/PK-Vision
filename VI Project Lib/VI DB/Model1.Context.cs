@@ -53,7 +53,6 @@ namespace VI_DB
         public virtual DbSet<ProductionHistory> ProductionHistories { get; set; }
         public virtual DbSet<RotationGroup> RotationGroups { get; set; }
         public virtual DbSet<SecondItemDivision> SecondItemDivisions { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TotalMonitoring> TotalMonitorings { get; set; }
         public virtual DbSet<WorkLog> WorkLogs { get; set; }
         public virtual DbSet<WorkOrder> WorkOrders { get; set; }

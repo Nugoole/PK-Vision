@@ -14,6 +14,7 @@
           <Property Name="State" Type="nvarchar" MaxLength="50" />
           <Property Name="ErrorCodeId" Type="int" />
           <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="InspectionDate" Type="datetime2" Precision="1" />
         </EntityType>
         <EntityType Name="DefectiveProduct">
           <Key>
@@ -170,8 +171,8 @@
           <Property Name="FirstItemDivisionId" Type="int" Nullable="false" />
           <Property Name="SecondItemDivisionId" Type="int" Nullable="false" />
           <Property Name="WorkPlaceId" Type="int" Nullable="false" />
-          <Property Name="Quantity" Type="int" />
           <Property Name="Note" Type="nvarchar" MaxLength="500" />
+          <Property Name="Quantity" Type="int" />
         </EntityType>
         <EntityType Name="LastInspection">
           <Key>
@@ -297,16 +298,6 @@
           <Property Name="SecondItemDivisionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TotalMonitoring">
           <Key>
             <PropertyRef Name="TotalMonitoringId" />
@@ -332,7 +323,7 @@
           <Property Name="TargetQuantity" Type="int" Nullable="false" />
           <Property Name="ProcessId" Type="int" Nullable="false" />
           <Property Name="FacilitiesId" Type="int" Nullable="false" />
-          <Property Name="WorkOrderId" Type="int" Nullable="false" />
+          <Property Name="WorkOrderId" Type="int" />
           <Property Name="ItemId" Type="int" Nullable="false" />
           <Property Name="WorkerName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
@@ -340,7 +331,7 @@
           <Key>
             <PropertyRef Name="WorkOrderId" />
           </Key>
-          <Property Name="WorkOrderId" Type="int" Nullable="false" />
+          <Property Name="WorkOrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ItemId" Type="int" Nullable="false" />
           <Property Name="OrderDate" Type="datetime2" Precision="1" Nullable="false" />
           <Property Name="RotationGroupId" Type="int" Nullable="false" />
@@ -961,7 +952,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_WorkLog_WorkOrder">
-          <End Role="WorkOrder" Type="Self.WorkOrder" Multiplicity="1" />
+          <End Role="WorkOrder" Type="Self.WorkOrder" Multiplicity="0..1" />
           <End Role="WorkLog" Type="Self.WorkLog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WorkOrder">
@@ -1061,7 +1052,6 @@
           <EntitySet Name="ProductionHistory" EntityType="Self.ProductionHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RotationGroup" EntityType="Self.RotationGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SecondItemDivision" EntityType="Self.SecondItemDivision" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TotalMonitoring" EntityType="Self.TotalMonitoring" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkLog" EntityType="Self.WorkLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrder" EntityType="Self.WorkOrder" Schema="dbo" store:Type="Tables" />
@@ -1305,6 +1295,7 @@
           <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ErrorCodeId" Type="Int32" />
           <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="InspectionDate" Type="DateTime" Precision="1" />
           <NavigationProperty Name="ErrorCode" Relationship="Self.FK_Barcode_ErrorCode" FromRole="Barcode" ToRole="ErrorCode" />
           <NavigationProperty Name="Item" Relationship="Self.FK_Barcode_Item" FromRole="Barcode" ToRole="Item" />
           <NavigationProperty Name="DefectiveProducts" Relationship="Self.FK_DefectiveProduct_Barcode" FromRole="Barcode" ToRole="DefectiveProduct" />
@@ -1502,8 +1493,8 @@
           <Property Name="FirstItemDivisionId" Type="Int32" Nullable="false" />
           <Property Name="SecondItemDivisionId" Type="Int32" Nullable="false" />
           <Property Name="WorkPlaceId" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" />
           <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" />
           <NavigationProperty Name="Barcodes" Relationship="Self.FK_Barcode_Item" FromRole="Item" ToRole="Barcode" />
           <NavigationProperty Name="FirstInspections" Relationship="Self.FK_FirstInspection_Product" FromRole="Item" ToRole="FirstInspection" />
           <NavigationProperty Name="FirstItemDivision" Relationship="Self.FK_Product_ProductSubJect" FromRole="Item" ToRole="FirstItemDivision" />
@@ -1678,16 +1669,6 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Items" Relationship="Self.FK_Item_SecondItemDivision" FromRole="SecondItemDivision" ToRole="Item" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="TotalMonitoring">
           <Key>
             <PropertyRef Name="TotalMonitoringId" />
@@ -1717,7 +1698,7 @@
           <Property Name="TargetQuantity" Type="Int32" Nullable="false" />
           <Property Name="ProcessId" Type="Int32" Nullable="false" />
           <Property Name="FacilitiesId" Type="Int32" Nullable="false" />
-          <Property Name="WorkOrderId" Type="Int32" Nullable="false" />
+          <Property Name="WorkOrderId" Type="Int32" />
           <Property Name="ItemId" Type="Int32" Nullable="false" />
           <Property Name="WorkerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Facility" Relationship="Self.FK_WorkLog_Facilities" FromRole="WorkLog" ToRole="Facilities" />
@@ -1731,7 +1712,7 @@
           <Key>
             <PropertyRef Name="WorkOrderId" />
           </Key>
-          <Property Name="WorkOrderId" Type="Int32" Nullable="false" />
+          <Property Name="WorkOrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ItemId" Type="Int32" Nullable="false" />
           <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="1" />
           <Property Name="RotationGroupId" Type="Int32" Nullable="false" />
@@ -2412,7 +2393,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_WorkLog_WorkOrder">
-          <End Role="WorkOrder" Type="Self.WorkOrder" Multiplicity="1" />
+          <End Role="WorkOrder" Type="Self.WorkOrder" Multiplicity="0..1" />
           <End Role="WorkLog" Type="Self.WorkLog" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WorkOrder">
@@ -2464,7 +2445,6 @@
           <EntitySet Name="ProductionHistories" EntityType="Self.ProductionHistory" />
           <EntitySet Name="RotationGroups" EntityType="Self.RotationGroup" />
           <EntitySet Name="SecondItemDivisions" EntityType="Self.SecondItemDivision" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TotalMonitorings" EntityType="Self.TotalMonitoring" />
           <EntitySet Name="WorkLogs" EntityType="Self.WorkLog" />
           <EntitySet Name="WorkOrders" EntityType="Self.WorkOrder" />
@@ -2708,6 +2688,7 @@
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="ErrorCodeId" ColumnName="ErrorCodeId" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="InspectionDate" ColumnName="InspectionDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2879,8 +2860,8 @@
                 <ScalarProperty Name="FirstItemDivisionId" ColumnName="FirstItemDivisionId" />
                 <ScalarProperty Name="SecondItemDivisionId" ColumnName="SecondItemDivisionId" />
                 <ScalarProperty Name="WorkPlaceId" ColumnName="WorkPlaceId" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3016,17 +2997,6 @@
               <MappingFragment StoreEntitySet="SecondItemDivision">
                 <ScalarProperty Name="SecondItemDivisionId" ColumnName="SecondItemDivisionId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="PCBVIModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

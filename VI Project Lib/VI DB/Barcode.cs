@@ -28,6 +28,7 @@ namespace VI_DB
         public string State { get; set; }
         public Nullable<int> ErrorCodeId { get; set; }
         public int ItemId { get; set; }
+        public Nullable<System.DateTime> InspectionDate { get; set; }
     
         public virtual ErrorCode ErrorCode { get; set; }
         public virtual Item Item { get; set; }

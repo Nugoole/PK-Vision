@@ -178,7 +178,7 @@ namespace Visual_Inspection
 
           cnt++;            //Cv2.WaitKey(2000);
             detectedBarcode.ErrorCodeId = 1;
-            detectedBarcode.ItemId = 1;
+            detectedBarcode.ItemId = 2;
             DB.BarCode.Insert(detectedBarcode);
         }
 

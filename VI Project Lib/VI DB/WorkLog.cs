@@ -30,7 +30,7 @@ namespace VI_DB
         public int TargetQuantity { get; set; }
         public int ProcessId { get; set; }
         public int FacilitiesId { get; set; }
-        public int WorkOrderId { get; set; }
+        public Nullable<int> WorkOrderId { get; set; }
         public int ItemId { get; set; }
         public string WorkerName { get; set; }
     
