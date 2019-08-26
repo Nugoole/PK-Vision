@@ -18,7 +18,6 @@ namespace VI_DB
         public Employee()
         {
             this.DefectiveProducts = new HashSet<DefectiveProduct>();
-            this.FirstInspections = new HashSet<FirstInspection>();
             this.TotalMonitorings = new HashSet<TotalMonitoring>();
         }
     
@@ -35,8 +34,6 @@ namespace VI_DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DefectiveProduct> DefectiveProducts { get; set; }
         public virtual Department Department { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FirstInspection> FirstInspections { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TotalMonitoring> TotalMonitorings { get; set; }
     }

@@ -25,6 +25,7 @@ namespace VI_DB
         public int PassQuantity { get; set; }
         public int failQuantity { get; set; }
         public int FinalQuantity { get; set; }
+        public string WorkerName { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual WorkPlace WorkPlace { get; set; }

@@ -12,11 +12,13 @@ namespace VI_Project_Lib
     {
         public string GetBarcodeCode(Mat img = null)
         {
-            //Cv2.Resize(img, img, new OpenCvSharp.Size(img.Size().Width * 2, img.Size().Height * 2));
-            Cv2.ImShow("Barcode", img);
+            //Cv2.Resize(img, img, new OpenCvSharp.Size(), 1.0,1.0);
+            //Cv2.CvtColor(img, img, ColorConversionCodes.BGR2GRAY);
+            //Cv2.Threshold(img, img, 200, 255, ThresholdTypes.Binary);
+            //Cv2.ImShow("Barcode", img);
             Bitmap bitmap = GetBitmap(img);
             BarcodeReader reader = new BarcodeReader();
-
+            
             Result results = reader.Decode(bitmap);
 
             if (results == null)

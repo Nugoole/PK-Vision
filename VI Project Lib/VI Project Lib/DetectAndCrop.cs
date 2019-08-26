@@ -17,7 +17,7 @@ namespace VI_Project_Lib
             Mat src2 = new Mat(filepath);
 
             //크기 조정
-            Cv2.Resize(src2, src2, new Size(src2.Size().Width / 2, src2.Size().Height / 2));
+            //Cv2.Resize(src2, src2, new Size(src2.Size().Width / 2, src2.Size().Height / 2));
             //Cv2.Resize(src1, src1, new Size(src2.Size().Width / 2, src2.Size().Height / 2));
 
 
@@ -27,7 +27,7 @@ namespace VI_Project_Lib
             Cv2.CvtColor(src1, gray1, ColorConversionCodes.BGR2GRAY);
             Cv2.CvtColor(src2, gray2, ColorConversionCodes.BGR2GRAY);
 
-            var surf = SIFT.Create(1000);
+            var surf = SURF.Create(1000);
 
             // Detect the keypoints and generate their descriptors using SURF
             KeyPoint[] keypoints1, keypoints2;

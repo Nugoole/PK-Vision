@@ -26,6 +26,7 @@ namespace VI_DB
     
         public int FacilitiesId { get; set; }
         public int FacilitiesNo { get; set; }
+        public int FacilitiesSerialNo { get; set; }
         public string Name { get; set; }
         public bool InspectionState { get; set; }
         public bool UseState { get; set; }

@@ -15,6 +15,7 @@
           <Property Name="ErrorCodeId" Type="int" />
           <Property Name="ItemId" Type="int" Nullable="false" />
           <Property Name="InspectionDate" Type="datetime2" Precision="1" />
+          <Property Name="ProcessId" Type="int" />
         </EntityType>
         <EntityType Name="DefectiveProduct">
           <Key>
@@ -80,6 +81,7 @@
           </Key>
           <Property Name="FacilitiesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FacilitiesNo" Type="int" Nullable="false" />
+          <Property Name="FacilitiesSerialNo" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="InspectionState" Type="bit" Nullable="false" />
           <Property Name="UseState" Type="bit" Nullable="false" />
@@ -95,7 +97,7 @@
             <PropertyRef Name="FacilitiesHistoryId" />
           </Key>
           <Property Name="FacilitiesHistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="WorkDate" Type="datetime" Nullable="false" />
+          <Property Name="WorkDate" Type="datetime2" Precision="1" Nullable="false" />
           <Property Name="FacilitiesId" Type="int" Nullable="false" />
           <Property Name="WorkPlaceId" Type="int" Nullable="false" />
           <Property Name="FHistoryDivisionId" Type="int" Nullable="false" />
@@ -129,14 +131,14 @@
           <Property Name="FirstInspectionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OCompanyName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ItemId" Type="int" Nullable="false" />
-          <Property Name="EnterDate" Type="datetime" Nullable="false" />
-          <Property Name="CheckDate" Type="datetime" />
+          <Property Name="EnterDate" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="CheckDate" Type="datetime2" Precision="1" />
           <Property Name="EnterQuantity" Type="int" Nullable="false" />
           <Property Name="CheckQuantiy" Type="int" />
           <Property Name="PassQuantity" Type="int" />
           <Property Name="ErrorQuantity" Type="int" />
-          <Property Name="EmployeeId" Type="int" Nullable="false" />
           <Property Name="WorkPlaceId" Type="int" Nullable="false" />
+          <Property Name="WorkerName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="FirstItemDivision">
           <Key>
@@ -171,8 +173,8 @@
           <Property Name="FirstItemDivisionId" Type="int" Nullable="false" />
           <Property Name="SecondItemDivisionId" Type="int" Nullable="false" />
           <Property Name="WorkPlaceId" Type="int" Nullable="false" />
-          <Property Name="Note" Type="nvarchar" MaxLength="500" />
           <Property Name="Quantity" Type="int" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="LastInspection">
           <Key>
@@ -189,6 +191,7 @@
           <Property Name="PassQuantity" Type="int" Nullable="false" />
           <Property Name="failQuantity" Type="int" Nullable="false" />
           <Property Name="FinalQuantity" Type="int" Nullable="false" />
+          <Property Name="WorkerName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Lot">
           <Key>
@@ -248,7 +251,7 @@
           <Key>
             <PropertyRef Name="MaterialStateId" />
           </Key>
-          <Property Name="MaterialStateId" Type="int" Nullable="false" />
+          <Property Name="MaterialStateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Process">
@@ -337,7 +340,7 @@
           <Property Name="RotationGroupId" Type="int" Nullable="false" />
           <Property Name="TargetQuantity" Type="int" Nullable="false" />
           <Property Name="ProcessId" Type="int" Nullable="false" />
-          <Property Name="WorkPlaceId" Type="int" Nullable="false" />
+          <Property Name="WorkPlaceId" Type="int" />
           <Property Name="Note" Type="nvarchar" MaxLength="100" />
           <Property Name="WorkerName" Type="nvarchar" MaxLength="50" />
           <Property Name="FacilitiesId" Type="int" Nullable="false" />
@@ -370,6 +373,18 @@
             </Principal>
             <Dependent Role="Barcode">
               <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Barcode_Process">
+          <End Role="Process" Type="Self.Process" Multiplicity="0..1" />
+          <End Role="Barcode" Type="Self.Barcode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Process">
+              <PropertyRef Name="ProcessId" />
+            </Principal>
+            <Dependent Role="Barcode">
+              <PropertyRef Name="ProcessId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -538,18 +553,6 @@
             </Principal>
             <Dependent Role="FacilitiesPower">
               <PropertyRef Name="ProcessId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FirstInspection_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="FirstInspection" Type="Self.FirstInspection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeId" />
-            </Principal>
-            <Dependent Role="FirstInspection">
-              <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1012,7 +1015,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_WorkOrder_WorkPlace">
-          <End Role="WorkPlace" Type="Self.WorkPlace" Multiplicity="1" />
+          <End Role="WorkPlace" Type="Self.WorkPlace" Multiplicity="0..1" />
           <End Role="WorkOrder" Type="Self.WorkOrder" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WorkPlace">
@@ -1062,6 +1065,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Barcode_Item" Association="Self.FK_Barcode_Item">
             <End Role="Item" EntitySet="Item" />
+            <End Role="Barcode" EntitySet="Barcode" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Barcode_Process" Association="Self.FK_Barcode_Process">
+            <End Role="Process" EntitySet="Process" />
             <End Role="Barcode" EntitySet="Barcode" />
           </AssociationSet>
           <AssociationSet Name="FK_DefectiveProduct_Barcode" Association="Self.FK_DefectiveProduct_Barcode">
@@ -1119,10 +1126,6 @@
           <AssociationSet Name="FK_FacilitiesPower_Process" Association="Self.FK_FacilitiesPower_Process">
             <End Role="Process" EntitySet="Process" />
             <End Role="FacilitiesPower" EntitySet="FacilitiesPower" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FirstInspection_Employee" Association="Self.FK_FirstInspection_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="FirstInspection" EntitySet="FirstInspection" />
           </AssociationSet>
           <AssociationSet Name="FK_FirstInspection_Product" Association="Self.FK_FirstInspection_Product">
             <End Role="Item" EntitySet="Item" />
@@ -1296,8 +1299,10 @@
           <Property Name="ErrorCodeId" Type="Int32" />
           <Property Name="ItemId" Type="Int32" Nullable="false" />
           <Property Name="InspectionDate" Type="DateTime" Precision="1" />
+          <Property Name="ProcessId" Type="Int32" />
           <NavigationProperty Name="ErrorCode" Relationship="Self.FK_Barcode_ErrorCode" FromRole="Barcode" ToRole="ErrorCode" />
           <NavigationProperty Name="Item" Relationship="Self.FK_Barcode_Item" FromRole="Barcode" ToRole="Item" />
+          <NavigationProperty Name="Process" Relationship="Self.FK_Barcode_Process" FromRole="Barcode" ToRole="Process" />
           <NavigationProperty Name="DefectiveProducts" Relationship="Self.FK_DefectiveProduct_Barcode" FromRole="Barcode" ToRole="DefectiveProduct" />
           <NavigationProperty Name="LotBarCodes" Relationship="Self.FK_LotBarCode_Barcode" FromRole="Barcode" ToRole="LotBarCode" />
           <NavigationProperty Name="MaterialHistories" Relationship="Self.FK_MaterialHistory_Barcode" FromRole="Barcode" ToRole="MaterialHistory" />
@@ -1344,7 +1349,6 @@
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="DefectiveProducts" Relationship="Self.FK_DefectiveProduct_Employee" FromRole="Employee" ToRole="DefectiveProduct" />
           <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
-          <NavigationProperty Name="FirstInspections" Relationship="Self.FK_FirstInspection_Employee" FromRole="Employee" ToRole="FirstInspection" />
           <NavigationProperty Name="TotalMonitorings" Relationship="Self.FK_TotalMonitoring_Employee" FromRole="Employee" ToRole="TotalMonitoring" />
         </EntityType>
         <EntityType Name="ErrorCode">
@@ -1384,6 +1388,7 @@
           </Key>
           <Property Name="FacilitiesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FacilitiesNo" Type="Int32" Nullable="false" />
+          <Property Name="FacilitiesSerialNo" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="InspectionState" Type="Boolean" Nullable="false" />
           <Property Name="UseState" Type="Boolean" Nullable="false" />
@@ -1405,7 +1410,7 @@
             <PropertyRef Name="FacilitiesHistoryId" />
           </Key>
           <Property Name="FacilitiesHistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="WorkDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="WorkDate" Type="DateTime" Nullable="false" Precision="1" />
           <Property Name="FacilitiesId" Type="Int32" Nullable="false" />
           <Property Name="WorkPlaceId" Type="Int32" Nullable="false" />
           <Property Name="FHistoryDivisionId" Type="Int32" Nullable="false" />
@@ -1444,15 +1449,14 @@
           <Property Name="FirstInspectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OCompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ItemId" Type="Int32" Nullable="false" />
-          <Property Name="EnterDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CheckDate" Type="DateTime" Precision="3" />
+          <Property Name="EnterDate" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="CheckDate" Type="DateTime" Precision="1" />
           <Property Name="EnterQuantity" Type="Int32" Nullable="false" />
           <Property Name="CheckQuantiy" Type="Int32" />
           <Property Name="PassQuantity" Type="Int32" />
           <Property Name="ErrorQuantity" Type="Int32" />
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
           <Property Name="WorkPlaceId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_FirstInspection_Employee" FromRole="FirstInspection" ToRole="Employee" />
+          <Property Name="WorkerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Item" Relationship="Self.FK_FirstInspection_Product" FromRole="FirstInspection" ToRole="Item" />
           <NavigationProperty Name="WorkPlace" Relationship="Self.FK_FirstInspection_WorkPlace" FromRole="FirstInspection" ToRole="WorkPlace" />
         </EntityType>
@@ -1493,8 +1497,8 @@
           <Property Name="FirstItemDivisionId" Type="Int32" Nullable="false" />
           <Property Name="SecondItemDivisionId" Type="Int32" Nullable="false" />
           <Property Name="WorkPlaceId" Type="Int32" Nullable="false" />
-          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Quantity" Type="Int32" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Barcodes" Relationship="Self.FK_Barcode_Item" FromRole="Item" ToRole="Barcode" />
           <NavigationProperty Name="FirstInspections" Relationship="Self.FK_FirstInspection_Product" FromRole="Item" ToRole="FirstInspection" />
           <NavigationProperty Name="FirstItemDivision" Relationship="Self.FK_Product_ProductSubJect" FromRole="Item" ToRole="FirstItemDivision" />
@@ -1521,6 +1525,7 @@
           <Property Name="PassQuantity" Type="Int32" Nullable="false" />
           <Property Name="failQuantity" Type="Int32" Nullable="false" />
           <Property Name="FinalQuantity" Type="Int32" Nullable="false" />
+          <Property Name="WorkerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK_LastInspection_Product" FromRole="LastInspection" ToRole="Item" />
           <NavigationProperty Name="WorkPlace" Relationship="Self.FK_LastInspection_WorkPlace" FromRole="LastInspection" ToRole="WorkPlace" />
         </EntityType>
@@ -1598,7 +1603,7 @@
           <Key>
             <PropertyRef Name="MaterialStateId" />
           </Key>
-          <Property Name="MaterialStateId" Type="Int32" Nullable="false" />
+          <Property Name="MaterialStateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="MaterialsManages" Relationship="Self.FK_MaterialsManage_MaterialState" FromRole="MaterialState" ToRole="MaterialsManage" />
         </EntityType>
@@ -1609,6 +1614,7 @@
           <Property Name="ProcessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="InspectionStandardId" Type="Int32" />
+          <NavigationProperty Name="Barcodes" Relationship="Self.FK_Barcode_Process" FromRole="Process" ToRole="Barcode" />
           <NavigationProperty Name="DefectiveProducts" Relationship="Self.FK_DefectiveProduct_Process" FromRole="Process" ToRole="DefectiveProduct" />
           <NavigationProperty Name="Facilities" Relationship="Self.FK_Facilities_Process" FromRole="Process" ToRole="Facilities" />
           <NavigationProperty Name="FacilitiesPowers" Relationship="Self.FK_FacilitiesPower_Process" FromRole="Process" ToRole="FacilitiesPower" />
@@ -1718,7 +1724,7 @@
           <Property Name="RotationGroupId" Type="Int32" Nullable="false" />
           <Property Name="TargetQuantity" Type="Int32" Nullable="false" />
           <Property Name="ProcessId" Type="Int32" Nullable="false" />
-          <Property Name="WorkPlaceId" Type="Int32" Nullable="false" />
+          <Property Name="WorkPlaceId" Type="Int32" />
           <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="WorkerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FacilitiesId" Type="Int32" Nullable="false" />
@@ -1763,6 +1769,18 @@
             </Principal>
             <Dependent Role="Barcode">
               <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Barcode_Process">
+          <End Role="Process" Type="Self.Process" Multiplicity="0..1" />
+          <End Role="Barcode" Type="Self.Barcode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Process">
+              <PropertyRef Name="ProcessId" />
+            </Principal>
+            <Dependent Role="Barcode">
+              <PropertyRef Name="ProcessId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1873,18 +1891,6 @@
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="DepartmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FirstInspection_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="FirstInspection" Type="Self.FirstInspection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeId" />
-            </Principal>
-            <Dependent Role="FirstInspection">
-              <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2405,7 +2411,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_WorkOrder_WorkPlace">
-          <End Role="WorkPlace" Type="Self.WorkPlace" Multiplicity="1" />
+          <End Role="WorkPlace" Type="Self.WorkPlace" Multiplicity="0..1" />
           <End Role="WorkOrder" Type="Self.WorkOrder" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WorkPlace">
@@ -2457,6 +2463,10 @@
             <End Role="Item" EntitySet="Items" />
             <End Role="Barcode" EntitySet="Barcodes" />
           </AssociationSet>
+          <AssociationSet Name="FK_Barcode_Process" Association="Self.FK_Barcode_Process">
+            <End Role="Process" EntitySet="Processes" />
+            <End Role="Barcode" EntitySet="Barcodes" />
+          </AssociationSet>
           <AssociationSet Name="FK_DefectiveProduct_Barcode" Association="Self.FK_DefectiveProduct_Barcode">
             <End Role="Barcode" EntitySet="Barcodes" />
             <End Role="DefectiveProduct" EntitySet="DefectiveProducts" />
@@ -2492,10 +2502,6 @@
           <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FirstInspection_Employee" Association="Self.FK_FirstInspection_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="FirstInspection" EntitySet="FirstInspections" />
           </AssociationSet>
           <AssociationSet Name="FK_TotalMonitoring_Employee" Association="Self.FK_TotalMonitoring_Employee">
             <End Role="Employee" EntitySet="Employees" />
@@ -2689,6 +2695,7 @@
                 <ScalarProperty Name="ErrorCodeId" ColumnName="ErrorCodeId" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="InspectionDate" ColumnName="InspectionDate" />
+                <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2761,6 +2768,7 @@
               <MappingFragment StoreEntitySet="Facilities">
                 <ScalarProperty Name="FacilitiesId" ColumnName="FacilitiesId" />
                 <ScalarProperty Name="FacilitiesNo" ColumnName="FacilitiesNo" />
+                <ScalarProperty Name="FacilitiesSerialNo" ColumnName="FacilitiesSerialNo" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="InspectionState" ColumnName="InspectionState" />
                 <ScalarProperty Name="UseState" ColumnName="UseState" />
@@ -2820,8 +2828,8 @@
                 <ScalarProperty Name="CheckQuantiy" ColumnName="CheckQuantiy" />
                 <ScalarProperty Name="PassQuantity" ColumnName="PassQuantity" />
                 <ScalarProperty Name="ErrorQuantity" ColumnName="ErrorQuantity" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="WorkPlaceId" ColumnName="WorkPlaceId" />
+                <ScalarProperty Name="WorkerName" ColumnName="WorkerName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2860,8 +2868,8 @@
                 <ScalarProperty Name="FirstItemDivisionId" ColumnName="FirstItemDivisionId" />
                 <ScalarProperty Name="SecondItemDivisionId" ColumnName="SecondItemDivisionId" />
                 <ScalarProperty Name="WorkPlaceId" ColumnName="WorkPlaceId" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2879,6 +2887,7 @@
                 <ScalarProperty Name="PassQuantity" ColumnName="PassQuantity" />
                 <ScalarProperty Name="failQuantity" ColumnName="failQuantity" />
                 <ScalarProperty Name="FinalQuantity" ColumnName="FinalQuantity" />
+                <ScalarProperty Name="WorkerName" ColumnName="WorkerName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

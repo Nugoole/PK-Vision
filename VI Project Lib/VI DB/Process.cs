@@ -17,6 +17,7 @@ namespace VI_DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Process()
         {
+            this.Barcodes = new HashSet<Barcode>();
             this.DefectiveProducts = new HashSet<DefectiveProduct>();
             this.Facilities = new HashSet<Facility>();
             this.FacilitiesPowers = new HashSet<FacilitiesPower>();
@@ -33,6 +34,8 @@ namespace VI_DB
         public string Name { get; set; }
         public Nullable<int> InspectionStandardId { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Barcode> Barcodes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DefectiveProduct> DefectiveProducts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

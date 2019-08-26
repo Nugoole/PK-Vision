@@ -4,41 +4,42 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0af060b0d81649e9941d8f98eb97ce5a" Name="Diagram1">
-        <EntityTypeShape EntityType="PCBVIModel.Barcode" Width="1.5" PointX="8.25" PointY="28" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.DefectiveProduct" Width="1.5" PointX="7.5" PointY="17.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.Department" Width="1.5" PointX="3" PointY="26.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.Employee" Width="1.5" PointX="5.25" PointY="25.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.ErrorCode" Width="1.5" PointX="8.25" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.ErrorKind" Width="1.5" PointX="6" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.ErrorType" Width="1.5" PointX="6" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.Facility" Width="1.5" PointX="7.5" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.FacilitiesHistory" Width="1.5" PointX="9.75" PointY="23.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.FacilitiesPower" Width="1.5" PointX="9.75" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.FHistoryDivision" Width="1.5" PointX="7.5" PointY="32.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.FirstInspection" Width="1.5" PointX="13.5" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.FirstItemDivision" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.InspectionStandard" Width="1.5" PointX="3" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.InspectionStandardType" Width="1.5" PointX="0.75" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.Item" Width="1.5" PointX="8.25" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.LastInspection" Width="1.5" PointX="13.5" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.Lot" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.LotBarCode" Width="1.5" PointX="15.5" PointY="21.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.MaterialHistory" Width="1.5" PointX="15.5" PointY="24.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.MaterialsInRe" Width="1.5" PointX="10.5" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.MaterialsManage" Width="1.5" PointX="7.5" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.MaterialState" Width="1.5" PointX="5.25" PointY="23.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.Process" Width="1.5" PointX="5.25" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.ProcessDefect" Width="1.5" PointX="10.5" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.ProductionHistory" Width="1.5" PointX="12.75" PointY="21.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.RotationGroup" Width="1.5" PointX="10.5" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.SecondItemDivision" Width="1.5" PointX="6" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.TotalMonitoring" Width="1.5" PointX="15" PointY="17.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.WorkLog" Width="1.5" PointX="12.75" PointY="15.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.WorkOrder" Width="1.5" PointX="12.75" PointY="25.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PCBVIModel.WorkPlace" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+      <Diagram DiagramId="d5934cac0e134115abb546e816e8d3ea" Name="Diagram1">
+        <EntityTypeShape EntityType="PCBVIModel.Barcode" Width="1.5" PointX="7.5" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.DefectiveProduct" Width="1.5" PointX="15.75" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.Department" Width="1.5" PointX="11.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.Employee" Width="1.5" PointX="13.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.ErrorCode" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.ErrorKind" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.ErrorType" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.Facility" Width="1.5" PointX="7.5" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.FacilitiesHistory" Width="1.5" PointX="9.75" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.FacilitiesPower" Width="1.5" PointX="9.75" PointY="23.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.FHistoryDivision" Width="1.5" PointX="7.5" PointY="34.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.FirstInspection" Width="1.5" PointX="16.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.FirstItemDivision" Width="1.5" PointX="3" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.InspectionStandard" Width="1.5" PointX="3" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.InspectionStandardType" Width="1.5" PointX="0.75" PointY="23.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.Item" Width="1.5" PointX="5.25" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.LastInspection" Width="1.5" PointX="18.25" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.Lot" Width="1.5" PointX="8.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.LotBarCode" Width="1.5" PointX="9.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.MaterialHistory" Width="1.5" PointX="15.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.MaterialsInRe" Width="1.5" PointX="15.75" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.MaterialsManage" Width="1.5" PointX="10.5" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.MaterialState" Width="1.5" PointX="8.25" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.Process" Width="1.5" PointX="5.25" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.ProcessDefect" Width="1.5" PointX="7.5" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.ProductionHistory" Width="1.5" PointX="12.75" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.RotationGroup" Width="1.5" PointX="10.5" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.SecondItemDivision" Width="1.5" PointX="3" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.TotalMonitoring" Width="1.5" PointX="18" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.WorkLog" Width="1.5" PointX="12.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.WorkOrder" Width="1.5" PointX="12.75" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PCBVIModel.WorkPlace" Width="1.5" PointX="6" PointY="11.75" IsExpanded="true" />
         <AssociationConnector Association="PCBVIModel.FK_Barcode_ErrorCode" ManuallyRouted="false" />
         <AssociationConnector Association="PCBVIModel.FK_Barcode_Item" ManuallyRouted="false" />
+        <AssociationConnector Association="PCBVIModel.FK_Barcode_Process" ManuallyRouted="false" />
         <AssociationConnector Association="PCBVIModel.FK_DefectiveProduct_Barcode" ManuallyRouted="false" />
         <AssociationConnector Association="PCBVIModel.FK_LotBarCode_Barcode" ManuallyRouted="false" />
         <AssociationConnector Association="PCBVIModel.FK_MaterialHistory_Barcode" ManuallyRouted="false" />
@@ -48,7 +49,6 @@
         <AssociationConnector Association="PCBVIModel.FK_DefectiveProduct_Lot" ManuallyRouted="false" />
         <AssociationConnector Association="PCBVIModel.FK_DefectiveProduct_Process" ManuallyRouted="false" />
         <AssociationConnector Association="PCBVIModel.FK_Employee_Department" ManuallyRouted="false" />
-        <AssociationConnector Association="PCBVIModel.FK_FirstInspection_Employee" ManuallyRouted="false" />
         <AssociationConnector Association="PCBVIModel.FK_TotalMonitoring_Employee" ManuallyRouted="false" />
         <AssociationConnector Association="PCBVIModel.FK_ErrorCode_ErrorKind" ManuallyRouted="false" />
         <AssociationConnector Association="PCBVIModel.FK_ErrorCode_ErrorType" ManuallyRouted="false" />

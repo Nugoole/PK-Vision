@@ -29,9 +29,11 @@ namespace VI_DB
         public Nullable<int> ErrorCodeId { get; set; }
         public int ItemId { get; set; }
         public Nullable<System.DateTime> InspectionDate { get; set; }
+        public Nullable<int> ProcessId { get; set; }
     
         public virtual ErrorCode ErrorCode { get; set; }
         public virtual Item Item { get; set; }
+        public virtual Process Process { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DefectiveProduct> DefectiveProducts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

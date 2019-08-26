@@ -13,8 +13,7 @@ namespace VI_DB.Data
         {
             using (PCBVIEntities context = new PCBVIEntities())
             {
-                context.Entry(barcode).State =
-                    barcode.BarcodeId != 0 ? EntityState.Modified : EntityState.Added;
+                context.Entry(barcode).State = barcode.BarcodeId != 0 ? EntityState.Modified : EntityState.Added;
 
                 try
                 {
@@ -26,6 +25,18 @@ namespace VI_DB.Data
                         return false;
                 }
                 return true;
+            }
+        }
+
+        public Barcode Search(int code)
+        {
+           using(PCBVIEntities context  = new PCBVIEntities())
+            {
+                var query = from x in context.Barcodes
+                            where x.BarcodeCode == code
+                            select x;
+
+                return query.ToList()[0];
             }
         }
     }

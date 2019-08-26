@@ -49,7 +49,7 @@ namespace VI_Project_Lib
                 
                 if (compare.CountNonZero() < (compare.Cols * compare.Rows) * 0.45)
                 {
-                    Cv2.ImShow($"{cnt}", compare);
+                    //Cv2.ImShow($"{cnt}", compare);
                     fails.Add(circle);
                     passorfail.Append($"{cnt}, ");
                 }
@@ -64,11 +64,11 @@ namespace VI_Project_Lib
                 compare.Dispose();
             }
             Cv2.CvtColor(processImg, processImg, ColorConversionCodes.GRAY2BGR);
-            foreach (var circle in fails)
-            {
-                Cv2.Circle(processImg, (Point)circle.Center, (int)circle.Radius, new Scalar(0, 0, 255), 2);
-                Cv2.ImShow("Fails" + pcbCnt++, processImg);
-            }
+            //foreach (var circle in fails)
+            //{
+            //    Cv2.Circle(processImg, (Point)circle.Center, (int)circle.Radius, new Scalar(0, 0, 255), 2);
+            //    //Cv2.ImShow("Fails" + pcbCnt++, processImg);
+            //}
             //foreach (var circle in circles2)
             //{
             //    //Cv2.Circle(imgData, new OpenCvSharp.Point((int)circle.Center.X, (int)circle.Center.Y), 5, new Scalar(255,255,0));

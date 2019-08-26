@@ -33,8 +33,8 @@ namespace VI_DB
         public int FirstItemDivisionId { get; set; }
         public int SecondItemDivisionId { get; set; }
         public int WorkPlaceId { get; set; }
-        public string Note { get; set; }
         public Nullable<int> Quantity { get; set; }
+        public string Note { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Barcode> Barcodes { get; set; }

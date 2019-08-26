@@ -26,7 +26,7 @@ namespace VI_DB
         public int RotationGroupId { get; set; }
         public int TargetQuantity { get; set; }
         public int ProcessId { get; set; }
-        public int WorkPlaceId { get; set; }
+        public Nullable<int> WorkPlaceId { get; set; }
         public string Note { get; set; }
         public string WorkerName { get; set; }
         public int FacilitiesId { get; set; }
